@@ -14,4 +14,5 @@ urlpatterns = [
     # Funcionalidades
     path('estado/', views.registrar_estado, name='registrar_estado'),
     path('nota/', views.crear_nota, name='crear_nota'),
+    path('calendario/', views.calendario, name='calendario'),
 ]

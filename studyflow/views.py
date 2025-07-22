@@ -144,4 +144,9 @@ def crear_nota(request):
         messages.success(request, 'Nota creada exitosamente')
         return redirect('dashboard')
     
+
+@login_required
+def calendario(request):
+    return render(request, 'studyflow/calendario.html')
+    
     return render(request, 'studyflow/crear_nota.html')
