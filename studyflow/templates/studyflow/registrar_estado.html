@@ -1,0 +1,77 @@
+<!-- studyflow/templates/studyflow/registrar_estado.html -->
+{% extends 'base.html' %}
+
+{% block title %}Mi Estado - MyStudyFlow{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card shadow border-0">
+            <div class="card-header bg-primary text-white text-center">
+                <h4 class="mb-0">
+                    <i class="fas fa-smile me-2"></i>¿Cómo te sientes hoy?
+                </h4>
+                <small class="opacity-75">{{ "today"|date:"l, j F Y" }}</small>
+            </div>
+            <div class="card-body p-4">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Selecciona tu estado:</label>
+                        <div class="row justify-content-center">
+    {% for valor, etiqueta in estados %}
+    <div class="col-6 col-sm-4 col-md-3 mb-4">
+        <input type="radio" class="btn-check" name="estado" id="estado_{{ forloop.counter }}" value="{{ valor }}" required>
+        <label class="btn btn-outline-primary w-100 py-3 d-flex flex-column align-items-center justify-content-center rounded-4 shadow-sm text-wrap text-break" for="estado_{{ forloop.counter }}">
+            <span class="estado-emoji mb-2" style="font-size: 2.5rem;">{{ etiqueta|first }}</span>
+            <small class="fw-semibold text-center">{{ etiqueta|slice:"1:" }}</small>
+        </label>
+    </div>
+    {% endfor %}
+</div>
+
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="comentario" class="form-label">
+                            <i class="fas fa-comment me-2"></i>¿Quieres agregar algo más? (opcional)
+                        </label>
+                        <textarea class="form-control" id="comentario" name="comentario" 
+                                  rows="3" maxlength="200" 
+                                  placeholder="Cuéntanos qué te hizo sentir así, qué pasó hoy, etc."></textarea>
+                        <div class="form-text">Máximo 200 caracteres</div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-save me-2"></i>Guardar Mi Estado
+                        </button>
+                        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Volver al Dashboard
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.btn-check:checked + .btn-outline-primary {
+    background-color: var(--bs-primary);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.btn-outline-primary {
+    transition: all 0.2s ease;
+    border: 2px solid var(--bs-primary);
+}
+
+.btn-outline-primary:hover {
+    transform: translateY(-2px);
+}
+</style>
+{% endblock %}
