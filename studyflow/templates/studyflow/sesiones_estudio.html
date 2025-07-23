@@ -67,7 +67,7 @@
                                     <small class="text-muted">Productividad:</small>
                                     <div class="progress">
                                         <div class="progress-bar" role="progressbar" 
-                                             style="width: {{ sesion.productividad|multiply:20 }}%">
+                                             style="width: {{ sesion.productividad_porcentaje }}%"
                                             {{ sesion.productividad|floatformat:1 }}/5
                                         </div>
                                     </div>

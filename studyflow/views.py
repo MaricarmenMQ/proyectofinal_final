@@ -374,6 +374,8 @@ def lista_sesiones(request):
         if sesion.duracion_total():
             total_horas += sesion.duracion_total()
         promedio_productividad += sesion.productividad()
+
+        sesion.productividad_porcentaje = sesion.productividad() * 20
     
     if total_sesiones > 0:
         promedio_productividad /= total_sesiones
