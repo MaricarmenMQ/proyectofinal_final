@@ -5,8 +5,9 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils import timezone
 from datetime import date
-from .models import PerfilUsuario, EstadoAnimo, NotaRapida
+from .models import PerfilUsuario, EstadoAnimo, NotaRapida, Evento
 from datetime import datetime
+
 def inicio(request):
     """Página de inicio/landing page"""
     return render(request, 'studyflow/inicio.html')
@@ -128,25 +129,75 @@ def registrar_estado(request):
 
 @login_required
 def crear_nota(request):
-    """Crear nueva nota rápida"""
-    if request.method == 'POST':
-        titulo = request.POST['titulo']
-        contenido = request.POST['contenido']
-        importante = request.POST.get('importante') == 'on'
-        
-        NotaRapida.objects.create(
-            usuario=request.user,
-            titulo=titulo,
-            contenido=contenido,
-            importante=importante
-        )
-        
-        messages.success(request, 'Nota creada exitosamente')
-        return redirect('dashboard')
+    preview = None
     
+    if request.method == 'POST':
+        if 'preview' in request.POST:
+            # Si es una vista previa
+            preview = {
+                'titulo': request.POST.get('titulo', ''),
+                'contenido': request.POST.get('contenido', ''),
+                'importante': request.POST.get('importante') == 'on'
+            }
+        else:
+            # Si es el envío final
+            NotaRapida.objects.create(
+                usuario=request.user,
+                titulo=request.POST['titulo'],
+                contenido=request.POST['contenido'],
+                importante=request.POST.get('importante') == 'on'
+            )
+            messages.success(request, 'Nota creada exitosamente')
+            return redirect('dashboard')
+    
+    return render(request, 'studyflow/crear_nota.html', {'preview': preview})
+
+@login_required
+def perfil_usuario(request):
+    # Contar elementos del usuario
+    notas_count = NotaRapida.objects.filter(usuario=request.user).count()
+    estados_count = EstadoAnimo.objects.filter(usuario=request.user).count()
+    eventos_count = 0  # Por ahora es 0 hasta que implementemos eventos
+
+    context = {
+        'notas_count': notas_count,
+        'estados_count': estados_count,
+        'eventos_count': eventos_count,
+    }
+    
+    return render(request, 'studyflow/perfil.html', context)  
 
 @login_required
 def calendario(request):
-    return render(request, 'studyflow/calendario.html')
+    eventos = Evento.objects.filter(usuario=request.user)
+    eventos_json = []
+    
+    for evento in eventos:
+        eventos_json.append({
+            'title': evento.titulo,
+            'start': evento.fecha_inicio.isoformat(),
+            'end': evento.fecha_fin.isoformat(),
+            'color': evento.color,
+            'className': 'evento-completado' if evento.completado else ''
+        })
+    
+    return render(request, 'studyflow/calendario.html', {
+        'eventos': eventos_json
+    })
+
+@login_required
+def crear_evento(request):
+    if request.method == 'POST':
+        evento = Evento.objects.create(
+            usuario=request.user,
+            titulo=request.POST['titulo'],
+            descripcion=request.POST['descripcion'],
+            fecha_inicio=request.POST['fecha_inicio'],
+            fecha_fin=request.POST['fecha_fin'],
+            color=request.POST['color']
+        )
+        messages.success(request, 'Evento creado exitosamente')
+        return redirect('calendario')
+    return redirect('calendario')
     
     return render(request, 'studyflow/crear_nota.html')

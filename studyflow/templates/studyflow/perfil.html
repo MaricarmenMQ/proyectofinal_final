@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- Información Principal -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <img src="{{ user.perfilusuario.foto_perfil.url|default:'/static/img/default-avatar.png' }}" 
+                         class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                    <h4>{{ user.get_full_name|default:user.username }}</h4>
+                    <p class="text-muted">
+                        <i class="fas fa-graduation-cap me-2"></i>{{ user.perfilusuario.carrera|default:"No especificada" }}
+                    </p>
+                    <p class="text-muted">
+                        <i class="fas fa-university me-2"></i>{{ user.perfilusuario.universidad|default:"No especificada" }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estadísticas y Actividad -->
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Actividad Reciente</h5>
+                    
+                    <!-- Estadísticas Básicas -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-4">
+                            <div class="border rounded p-3 text-center">
+                                <h3>{{ notas_count }}</h3>
+                                <small class="text-muted">Notas Creadas</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="border rounded p-3 text-center">
+                                <h3>{{ estados_count }}</h3>
+                                <small class="text-muted">Estados Registrados</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="border rounded p-3 text-center">
+                                <h3>{{ eventos_count }}</h3>
+                                <small class="text-muted">Eventos Programados</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

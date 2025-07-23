@@ -52,6 +52,8 @@ body {
     backdrop-filter: blur(10px);
     background: rgba(255, 255, 255, 0.95) !important;
     box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 1000;
 }
 
 .navbar-brand {
@@ -90,6 +92,51 @@ body {
     width: 100%;
 }
 
+
+/* Estilos para el dropdown */
+.dropdown-menu {
+    z-index: 1100 !important; /* Aumentamos el z-index más que el navbar */
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    background: #ffffff !important; /* Cambiamos a blanco sólido */
+    padding: 0.5rem;
+    min-width: 200px;
+    position: absolute !important;
+    transform: none !important;
+}
+
+.dropdown-item {
+    padding: 0.7rem 1rem;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background: var(--gradient-primary);
+    color: white;
+    transform: translateX(5px);
+}
+
+.dropdown-divider {
+    margin: 0.5rem 0;
+    border-color: rgba(0,0,0,0.1);
+}
+
+/* Asegura que el dropdown esté por encima de otros elementos */
+.navbar .dropdown {
+    position: relative !important;
+    z-index: 1100 !important; 
+}
+
+.navbar .dropdown-menu {
+   right: 0;
+    left: auto;
+    top: 100%;
+    margin-top: 0.5rem;
+    opacity: 1 !important;
+}
 /* ===== BOTONES ===== */
 .btn {
     border-radius: 50px;

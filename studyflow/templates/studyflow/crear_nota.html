@@ -1,4 +1,3 @@
-<!-- studyflow/templates/studyflow/crear_nota.html -->
 {% extends 'base.html' %}
 
 {% block title %}Nueva Nota - MyStudyFlow{% endblock %}
@@ -24,7 +23,8 @@
                         <input type="text" class="form-control form-control-lg" 
                                id="titulo" name="titulo" 
                                placeholder="¿De qué va esta nota?" 
-                               maxlength="100" required>
+                               maxlength="100" required
+                               value="{{ preview.titulo|default:'' }}">
                     </div>
 
                     <div class="mb-4">
@@ -33,14 +33,15 @@
                         </label>
                         <textarea class="form-control" id="contenido" name="contenido" 
                                   rows="8" maxlength="500" required
-                                  placeholder="Escribe aquí todo lo que necesites recordar: ideas, apuntes, pensamientos, tareas, etc."></textarea>
+                                  placeholder="Escribe aquí todo lo que necesites recordar">{{ preview.contenido|default:'' }}</textarea>
                         <div class="form-text">Máximo 500 caracteres</div>
                     </div>
 
                     <div class="mb-4">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" 
-                                   id="importante" name="importante">
+                                   id="importante" name="importante"
+                                   {% if preview.importante %}checked{% endif %}>
                             <label class="form-check-label" for="importante">
                                 <i class="fas fa-star text-warning me-2"></i>
                                 Marcar como importante
@@ -49,6 +50,9 @@
                     </div>
 
                     <div class="d-grid gap-2">
+                        <button type="submit" name="preview" class="btn btn-outline-secondary mb-2">
+                            <i class="fas fa-eye me-2"></i>Vista Previa
+                        </button>
                         <button type="submit" class="btn btn-warning btn-lg text-dark">
                             <i class="fas fa-save me-2"></i>Crear Nota
                         </button>
@@ -60,53 +64,28 @@
             </div>
         </div>
 
-        <!-- Preview en tiempo real -->
-        <div class="card mt-4 shadow-sm" id="preview-card" style="display: none;">
+        {% if preview %}
+        <!-- Vista previa -->
+        <div class="card mt-4 shadow-sm">
             <div class="card-header bg-light">
                 <h6 class="mb-0">
                     <i class="fas fa-eye me-2"></i>Vista Previa
                 </h6>
             </div>
             <div class="card-body">
-                <h5 id="preview-titulo" class="text-muted">Título de la nota</h5>
-                <p id="preview-contenido" class="text-muted">El contenido aparecerá aquí...</p>
+                <h5>{{ preview.titulo|default:"Sin título" }}</h5>
+                <p>{{ preview.contenido|default:"Sin contenido"|linebreaks }}</p>
                 <small class="text-muted">
                     <i class="fas fa-clock me-1"></i>Ahora mismo
                 </small>
+                {% if preview.importante %}
+                <span class="badge bg-warning text-dark ms-2">
+                    <i class="fas fa-star me-1"></i>Importante
+                </span>
+                {% endif %}
             </div>
         </div>
+        {% endif %}
     </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const tituloInput = document.getElementById('titulo');
-    const contenidoInput = document.getElementById('contenido');
-    const previewCard = document.getElementById('preview-card');
-    const previewTitulo = document.getElementById('preview-titulo');
-    const previewContenido = document.getElementById('preview-contenido');
-    
-    function updatePreview() {
-        const titulo = tituloInput.value.trim();
-        const contenido = contenidoInput.value.trim();
-        
-        if (titulo || contenido) {
-            previewCard.style.display = 'block';
-            previewTitulo.textContent = titulo || 'Título de la nota';
-            previewContenido.textContent = contenido || 'El contenido aparecerá aquí...';
-            
-            if (titulo) previewTitulo.classList.remove('text-muted');
-            else previewTitulo.classList.add('text-muted');
-            
-            if (contenido) previewContenido.classList.remove('text-muted');
-            else previewContenido.classList.add('text-muted');
-        } else {
-            previewCard.style.display = 'none';
-        }
-    }
-    
-    tituloInput.addEventListener('input', updatePreview);
-    contenidoInput.addEventListener('input', updatePreview);
-});
-</script>
 {% endblock %}

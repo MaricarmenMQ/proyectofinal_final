@@ -3,6 +3,10 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 class PerfilUsuario(models.Model):
+    TEMAS_CHOICES = [
+        ('claro', 'Tema Claro'),
+        ('oscuro', 'Tema Oscuro'),
+    ]
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     nombre_completo = models.CharField(max_length=100, blank=True)
     fecha_nacimiento = models.DateField(null=True, blank=True)
@@ -15,10 +19,12 @@ class PerfilUsuario(models.Model):
         ],
         blank=True
     )
-    pais = models.CharField(max_length=50, blank=True)
-    foto_perfil = models.ImageField(upload_to='fotos_perfil/', null=True, blank=True)
-    fecha_creacion = models.DateTimeField(default=timezone.now)
-
+    biografia = models.TextField(max_length=500, blank=True)
+    carrera = models.CharField(max_length=100, blank=True)
+    universidad = models.CharField(max_length=100, blank=True)
+    tema_preferido = models.CharField(max_length=10, choices=TEMAS_CHOICES, default='claro')
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+    
     def calcular_edad(self):
         from datetime import date
         if self.fecha_nacimiento:
@@ -68,3 +74,24 @@ class NotaRapida(models.Model):
     
     def __str__(self):
         return f"{self.titulo} - {self.usuario.username}"
+    
+class Evento(models.Model):
+    COLORES_CHOICES = [
+        ('#3788d8', 'Azul'),
+        ('#28a745', 'Verde'),
+        ('#dc3545', 'Rojo'),
+        ('#ffc107', 'Amarillo'),
+    ]
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=200)
+    descripcion = models.TextField(blank=True)
+    fecha_inicio = models.DateTimeField()
+    fecha_fin = models.DateTimeField()
+    color = models.CharField(max_length=20, default='#3788d8')
+    completado = models.BooleanField(default=False)
+    
+    class Meta:
+        ordering = ['fecha_inicio']
+        
+    def __str__(self):
+        return self.titulo
