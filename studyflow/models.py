@@ -210,3 +210,57 @@ class Presupuesto(models.Model):
 
     def __str__(self):
         return f"Presupuesto de {self.usuario.username} - ${self.monto} ({self.get_periodo_display()})"
+
+class SesionEstudio(models.Model):
+    AMBIENTE_CHOICES = [
+        ('biblioteca', '📚 Biblioteca'),
+        ('casa', '🏠 Casa'),
+        ('cafe', '☕ Café'),
+        ('universidad', '🏛️ Universidad'),
+        ('otro', '📍 Otro'),
+    ]
+
+    NIVEL_ENERGIA_CHOICES = [
+        (1, '🔴 Muy baja'),
+        (2, '🟠 Baja'),
+        (3, '🟡 Media'),
+        (4, '🟢 Alta'),
+        (5, '⭐ Excelente'),
+    ]
+
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+    fecha_inicio = models.DateTimeField(auto_now_add=True)
+    fecha_fin = models.DateTimeField(null=True, blank=True)
+    ambiente = models.CharField(max_length=20, choices=AMBIENTE_CHOICES)
+    nivel_energia = models.IntegerField(choices=NIVEL_ENERGIA_CHOICES)
+    nivel_concentracion = models.IntegerField(choices=NIVEL_ENERGIA_CHOICES)
+    objetivos_cumplidos = models.TextField(blank=True)
+    notas = models.TextField(blank=True)
+    interrupciones = models.IntegerField(default=0)
+    descansos_tomados = models.IntegerField(default=0)
+
+    def duracion_total(self):
+        if self.fecha_fin:
+            return self.fecha_fin - self.fecha_inicio
+        return None
+
+    def productividad(self):
+        if not self.fecha_fin:
+            return 0
+        
+        base_score = (self.nivel_energia + self.nivel_concentracion) / 2
+        duracion_horas = self.duracion_total().total_seconds() / 3600
+        
+        interrupciones_penalty = self.interrupciones * 0.1
+        descansos_ideales = max(1, int(duracion_horas))
+        descansos_diff = abs(descansos_ideales - self.descansos_tomados)
+        descansos_bonus = 1 if descansos_diff <= 1 else 1 - (descansos_diff * 0.1)
+        
+        final_score = (base_score * descansos_bonus) - interrupciones_penalty
+        return max(0, min(5, final_score))
+
+    class Meta:
+        ordering = ['-fecha_inicio']
+        verbose_name = "Sesión de Estudio"
+        verbose_name_plural = "Sesiones de Estudio"
