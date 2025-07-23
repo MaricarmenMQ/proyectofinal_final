@@ -291,6 +291,32 @@ def lista_tareas(request):
     }
     
     return render(request, 'studyflow/tareas.html', context)
+@login_required
+def crear_tarea(request):
+    if request.method == 'POST':
+        curso_id = request.POST.get('curso')
+        titulo = request.POST.get('titulo', '')
+        descripcion = request.POST.get('descripcion', '')
+        fecha_entrega = request.POST.get('fecha_entrega')
+        prioridad = request.POST.get('prioridad', 'media')
+        
+        # Obtener el curso
+        curso = get_object_or_404(Curso, id=curso_id, usuario=request.user)
+        
+        # Crear la tarea
+        tarea = Tarea.objects.create(
+            usuario=request.user,
+            curso=curso,
+            titulo=titulo,
+            descripcion=descripcion,
+            fecha_entrega=fecha_entrega,
+            prioridad=prioridad
+        )
+        
+        messages.success(request, 'Tarea creada exitosamente')
+        return redirect('lista_tareas')
+    
+    return redirect('lista_tareas')
 
 @login_required
 def completar_tarea(request, tarea_id):

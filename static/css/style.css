@@ -83,6 +83,7 @@ body {
 }
 
 /* ===== DROPDOWN ===== */
+/* ===== DROPDOWN MEJORADO ===== */
 .dropdown-menu {
     z-index: 1100;
     border: none;
@@ -90,7 +91,11 @@ body {
     box-shadow: var(--box-shadow);
     background: #ffffff;
     padding: 0.5rem;
-    min-width: 200px;
+    min-width: 250px;
+    max-width: 400px;
+    max-height: 60vh; /* 60% de la altura de la ventana */
+    overflow-y: auto;
+    overflow-x: hidden;
     position: absolute;
     right: 0;
     left: auto;
@@ -105,6 +110,8 @@ body {
     transition: all 0.3s ease;
     color: #333;
     text-decoration: none;
+    white-space: normal; /* Permite que el texto se ajuste */
+    word-wrap: break-word;
 }
 
 .dropdown-item:hover {
@@ -124,6 +131,20 @@ body {
     z-index: 1100;
 }
 
+/* Scroll personalizado para dropdown */
+.dropdown-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+    background: #f8f9fa;
+    border-radius: 3px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+}
 /* ===== BOTONES ===== */
 .btn {
     border-radius: 50px;
@@ -462,4 +483,36 @@ label.btn {
 
 .footer a:hover {
     text-decoration: underline;
+}
+/* ===== NAVBAR RESPONSIVE OPTIMIZADO ===== */
+@media (max-width: 1200px) {
+    .navbar .nav-link {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem !important;
+    }
+    
+    .navbar .btn {
+        font-size: 0.85rem;
+        padding: 0.4rem 1rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .navbar-nav {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 1rem;
+        margin-top: 1rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .nav-item {
+        margin: 0.3rem 0;
+    }
+}
+
+/* Mejorar dropdowns */
+.dropdown-menu {
+    max-height: 350px;
+    overflow-y: auto;
 }

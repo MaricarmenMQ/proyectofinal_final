@@ -21,109 +21,123 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold text-primary" href="{% url 'inicio' %}">
-                <i class="fas fa-brain me-2"></i>MyStudyFlow
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'dashboard' %}">
-                                <i class="fas fa-tachometer-alt me-1"></i>Dashboard
-                            </a>
-                        </li>
+<!-- Navbar Optimizado -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary" href="{% url 'inicio' %}">
+            <i class="fas fa-brain me-2"></i>MyStudyFlow
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                {% if user.is_authenticated %}
+                    <!-- Elementos esenciales siempre visibles -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dashboard' %}">
+                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                        </a>
+                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'calendario' %}">
-                              <i class="fas fa-calendar me-1"></i>Calendario
-                            </a>
-                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'calendario' %}">
+                            <i class="fas fa-calendar me-1"></i>Calendario
+                        </a>
+                    </li>
 
-                        <!-- CORREGIDO: Cambiado dropdown-item por nav-link -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'lista_gastos' %}">
-                                <i class="fas fa-money-bill-wave me-1"></i>Control de Gastos
-                            </a>
-                        </li>
+                    <!-- Dropdown: Académico -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-graduation-cap me-1"></i>Académico
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'lista_cursos' %}">
+                                    <i class="fas fa-book me-2"></i>Mis Cursos
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'lista_tareas' %}">
+                                    <i class="fas fa-tasks me-2"></i>Tareas Pendientes
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'lista_sesiones' %}">
+                                    <i class="fas fa-book-reader me-2"></i>Sesiones de Estudio
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'registrar_estado' %}">
-                                <i class="fas fa-smile me-1"></i>Mi Estado
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'crear_nota' %}">
-                                <i class="fas fa-plus me-1"></i>Nueva Nota
-                            </a>
-                        </li>
-                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'lista_sesiones' %}">
-                                <i class="fas fa-book-reader me-1"></i>Sesión de Estudio
-                            </a>
-                        </li>
-                        <li class="nav-item me-2">
-                            <a href="{% url 'perfil' %}" class="btn btn-outline-primary btn-sm">
-                                <i class="fas fa-user-circle me-1"></i>Mi Perfil
-                            </a>
-                        </li>
-                        
-                        <!-- Menú de configuración -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-cog"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <!-- Menú Académico -->
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'lista_cursos' %}">
-                                        <i class="fas fa-graduation-cap me-1"></i>Mis Cursos
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'lista_tareas' %}">
-                                        <i class="fas fa-tasks me-1"></i>Tareas Pendientes
-                                    </a>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <!-- Perfil y Cierre de Sesión -->
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'perfil' %}">
-                                        <i class="fas fa-user-circle me-1"></i>Mi Perfil
-                                    </a>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'logout' %}">
-                                        <i class="fas fa-sign-out-alt me-1"></i>Cerrar Sesión
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">
-                                <i class="fas fa-sign-in-alt me-1"></i>Iniciar Sesión
-                            </a>
-                        </li>
+                    <!-- Dropdown: Herramientas -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools me-1"></i>Herramientas
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'crear_nota' %}">
+                                    <i class="fas fa-sticky-note me-2"></i>Nueva Nota
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'lista_gastos' %}">
+                                    <i class="fas fa-money-bill-wave me-2"></i>Control de Gastos
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'registrar_estado' %}">
+                                    <i class="fas fa-smile me-2"></i>Mi Estado
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-primary text-white ms-2 px-3" href="{% url 'registro' %}">
-                                <i class="fas fa-user-plus me-1"></i>Registrarse
-                            </a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
+                    <!-- Botón Mi Perfil destacado -->
+                    <li class="nav-item me-2">
+                        <a href="{% url 'perfil' %}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-user-circle me-1"></i>Mi Perfil
+                        </a>
+                    </li>
+                    
+                    <!-- Dropdown: Configuración -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-cog"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'perfil' %}">
+                                    <i class="fas fa-user-circle me-2"></i>Ver Perfil
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="fas fa-sign-in-alt me-1"></i>Iniciar Sesión
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary text-white ms-2 px-3" href="{% url 'registro' %}">
+                            <i class="fas fa-user-plus me-1"></i>Registrarse
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <!-- Messages -->
     {% if messages %}

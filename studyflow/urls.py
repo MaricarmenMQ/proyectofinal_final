@@ -19,6 +19,7 @@ urlpatterns = [
     path('evento/crear/', views.crear_evento, name='crear_evento'),
     path('cursos/', views.lista_cursos, name='lista_cursos'),
     path('tareas/', views.lista_tareas, name='lista_tareas'),
+    path('tareas/crear/', views.crear_tarea, name='crear_tarea'), 
     path('tarea/<int:tarea_id>/completar/', views.completar_tarea, name='completar_tarea'),
     path('gastos/', views.lista_gastos, name='lista_gastos'),
     path('gastos/crear/', views.crear_gasto, name='crear_gasto'),
