@@ -1,41 +1,42 @@
 {% extends 'base.html' %}
 
-{% block title %}Bienvenido a MyStudyFlow{% endblock %}
+{% block title %}Inicio - MyStudyFlow{% endblock %}
 
 {% block main_class %}{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero-section py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+<section class="hero-section text-white py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 60vh;">
     <div class="container">
-        <div class="row align-items-center min-vh-75">
+        <div class="row align-items-center">
             <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-4">
-                    <i class="fas fa-brain me-3"></i>
-                    MyStudyFlow
-                </h1>
-                <p class="lead mb-4">
-                    Tu espacio personal para gestionar emociones, ideas y estudios. 
-                    Un dashboard minimalista diseñado para estudiantes que buscan organización y bienestar.
-                </p>
-                <div class="d-flex gap-3">
-                    {% if not user.is_authenticated %}
-                        <a href="{% url 'registro' %}" class="btn btn-light btn-lg px-4">
-                            <i class="fas fa-rocket me-2"></i>Comenzar Gratis
-                        </a>
-                        <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg px-4">
-                            <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
+                <div class="hero-content fade-in">
+                    <h1 class="display-4 fw-bold mb-4">
+                        Organiza tu vida estudiantil
+                        <span class="d-block text-warning">de manera inteligente</span>
+                    </h1>
+                    <p class="lead mb-4 opacity-90">
+                        La plataforma integral diseñada para estudiantes que buscan organización y bienestar. 
+                        Controla tu estado de ánimo, gestiona tus tareas y mantén tus finanzas bajo control.
+                    </p>
+                    
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="btn btn-warning btn-lg me-3">
+                            <i class="fas fa-tachometer-alt me-2"></i>IR A DASHBOARD
                         </a>
                     {% else %}
-                        <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg px-4">
-                            <i class="fas fa-tachometer-alt me-2"></i>Ir a Dashboard
+                        <a href="{% url 'registro' %}" class="btn btn-warning btn-lg me-3">
+                            <i class="fas fa-user-plus me-2"></i>COMENZAR GRATIS
+                        </a>
+                        <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-sign-in-alt me-2"></i>INICIAR SESIÓN
                         </a>
                     {% endif %}
                 </div>
             </div>
-            <div class="col-lg-6 text-center">
-                <div class="hero-illustration">
-                    <i class="fas fa-graduation-cap" style="font-size: 10rem; opacity: 0.8;"></i>
+            <div class="col-lg-6">
+                <div class="hero-illustration text-center">
+                    <i class="fas fa-graduation-cap" style="font-size: 15rem; opacity: 0.3;"></i>
                 </div>
             </div>
         </div>
@@ -43,57 +44,136 @@
 </section>
 
 <!-- Features Section -->
-<section class="py-5 bg-light">
+<section class="py-5">
     <div class="container">
-        <div class="row text-center mb-5">
-            <div class="col-12">
-                <h2 class="display-5 fw-bold mb-3">¿Qué puedes hacer?</h2>
-                <p class="lead text-muted">Herramientas simples pero poderosas para tu día a día</p>
-            </div>
+        <div class="text-center mb-5">
+            <h2 class="fw-bold mb-3">¿Qué puedes hacer?</h2>
+            <p class="lead text-muted">Herramientas simples pero poderosas para tu día a día</p>
         </div>
-        
+
         <div class="row g-4">
+            <!-- Registro de Estados -->
             <div class="col-lg-4 col-md-6">
-                <div class="card h-100 shadow-sm border-0 text-center">
+                <div class="card h-100 text-center border-0 shadow-sm">
                     <div class="card-body p-4">
                         <div class="feature-icon mb-3">
-                            <i class="fas fa-smile-beam text-primary" style="font-size: 3rem;"></i>
+                            <i class="fas fa-smile text-primary" style="font-size: 3rem;"></i>
                         </div>
-                        <h5 class="card-title">Registro de Estados</h5>
+                        <h4 class="card-title mb-3">Registro de Estados</h4>
                         <p class="card-text text-muted">
-                            Lleva un seguimiento diario de cómo te sientes. 
-                            Identifica patrones y cuida tu bienestar emocional.
+                            Lleva un seguimiento diario de cómo te sientes y mantén el control de tu bienestar emocional.
                         </p>
+                        <div class="mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-check-circle text-success me-1"></i>
+                                Seguimiento diario
+                            </small>
+                        </div>
                     </div>
                 </div>
             </div>
-            
+
+            <!-- Notas Rápidas -->
             <div class="col-lg-4 col-md-6">
-                <div class="card h-100 shadow-sm border-0 text-center">
+                <div class="card h-100 text-center border-0 shadow-sm">
                     <div class="card-body p-4">
                         <div class="feature-icon mb-3">
                             <i class="fas fa-sticky-note text-warning" style="font-size: 3rem;"></i>
                         </div>
-                        <h5 class="card-title">Notas Rápidas</h5>
+                        <h4 class="card-title mb-3">Notas Rápidas</h4>
                         <p class="card-text text-muted">
-                            Captura ideas, apuntes y recordatorios al vuelo. 
-                            Todo organizado y fácil de encontrar.
+                            Captura ideas, apuntes y recordatorios al vuelo. Mantén tus pensamientos organizados.
                         </p>
+                        <div class="mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-check-circle text-success me-1"></i>
+                                Acceso instantáneo
+                            </small>
+                        </div>
                     </div>
                 </div>
             </div>
-            
+
+            <!-- Dashboard Personal -->
             <div class="col-lg-4 col-md-6">
-                <div class="card h-100 shadow-sm border-0 text-center">
+                <div class="card h-100 text-center border-0 shadow-sm">
                     <div class="card-body p-4">
                         <div class="feature-icon mb-3">
                             <i class="fas fa-chart-line text-success" style="font-size: 3rem;"></i>
                         </div>
-                        <h5 class="card-title">Dashboard Personal</h5>
+                        <h4 class="card-title mb-3">Dashboard Personal</h4>
                         <p class="card-text text-muted">
-                            Ve tu progreso, estados recientes y notas importantes 
-                            en una interfaz limpia y motivadora.
+                            Ve tu progreso, estados recientes y toda tu información importante en un solo lugar.
                         </p>
+                        <div class="mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-check-circle text-success me-1"></i>
+                                Vista centralizada
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gestión de Gastos -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-money-bill-wave text-success" style="font-size: 3rem;"></i>
+                        </div>
+                        <h4 class="card-title mb-3">Control de Gastos</h4>
+                        <p class="card-text text-muted">
+                            Mantén tus finanzas estudiantiles bajo control con presupuestos y seguimiento de gastos.
+                        </p>
+                        <div class="mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-check-circle text-success me-1"></i>
+                                Presupuestos inteligentes
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gestión de Horarios -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-calendar-alt text-info" style="font-size: 3rem;"></i>
+                        </div>
+                        <h4 class="card-title mb-3">Gestión de Horarios</h4>
+                        <p class="card-text text-muted">
+                            Organiza tus clases, eventos y actividades con un calendario intuitivo y funcional.
+                        </p>
+                        <div class="mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-check-circle text-success me-1"></i>
+                                Calendario integrado
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sesiones de Estudio -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-book-reader text-primary" style="font-size: 3rem;"></i>
+                        </div>
+                        <h4 class="card-title mb-3">Sesiones de Estudio</h4>
+                        <p class="card-text text-muted">
+                            Registra y analiza tus sesiones de estudio para mejorar tu productividad académica.
+                        </p>
+                        <div class="mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-check-circle text-success me-1"></i>
+                                Análisis de productividad
+                            </small>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -103,48 +183,100 @@
 
 <!-- CTA Section -->
 {% if not user.is_authenticated %}
-<section class="py-5 bg-primary text-white">
-    <div class="container text-center">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <h2 class="mb-4">¿Listo para comenzar tu journey estudiantil?</h2>
-                <p class="lead mb-4">
-                    Únete a estudiantes que ya están organizando sus vidas con MyStudyFlow
-                </p>
-                <a href="{% url 'registro' %}" class="btn btn-light btn-lg px-5">
-                    <i class="fas fa-user-plus me-2"></i>Crear Cuenta Gratis
-                </a>
-            </div>
-        </div>
+<section class="py-5" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+    <div class="container text-center text-white">
+        <h2 class="fw-bold mb-3">¿Listo para organizarte?</h2>
+        <p class="lead mb-4">Únete a miles de estudiantes que ya organizan su vida con MyStudyFlow</p>
+        <a href="{% url 'registro' %}" class="btn btn-light btn-lg">
+            <i class="fas fa-rocket me-2"></i>COMENZAR AHORA
+        </a>
     </div>
 </section>
 {% endif %}
 
+<!-- Benefits Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-4">¿Por qué elegir MyStudyFlow?</h2>
+                <div class="benefit-list">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-check-circle text-success me-3" style="font-size: 1.5rem;"></i>
+                        <div>
+                            <h5 class="mb-1">100% Gratuito</h5>
+                            <p class="text-muted mb-0">Todas las funciones sin costo alguno</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-mobile-alt text-primary me-3" style="font-size: 1.5rem;"></i>
+                        <div>
+                            <h5 class="mb-1">Acceso desde cualquier lugar</h5>
+                            <p class="text-muted mb-0">Responsive y optimizado para móviles</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-shield-alt text-warning me-3" style="font-size: 1.5rem;"></i>
+                        <div>
+                            <h5 class="mb-1">Datos seguros</h5>
+                            <p class="text-muted mb-0">Tu información está protegida</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-heart text-danger me-3" style="font-size: 1.5rem;"></i>
+                        <div>
+                            <h5 class="mb-1">Hecho por estudiantes</h5>
+                            <p class="text-muted mb-0">Diseñado pensando en tus necesidades reales</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <i class="fas fa-users" style="font-size: 10rem; opacity: 0.1; color: var(--primary-color);"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
 <style>
-.min-vh-75 {
-    min-height: 75vh;
+.hero-section {
+    position: relative;
+    overflow: hidden;
 }
 
-.hero-illustration {
+.hero-illustration i {
     animation: float 3s ease-in-out infinite;
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
+    0%, 100% { 
+        transform: translateY(0px); 
+    }
+    50% { 
+        transform: translateY(-20px); 
+    }
 }
 
-.card:hover {
-    transform: translateY(-5px);
+.feature-icon i {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        transform: scale(1); 
+    }
+    50% { 
+        transform: scale(1.05); 
+    }
+}
+
+.card {
     transition: all 0.3s ease;
 }
 
-.feature-icon {
-    transition: transform 0.3s ease;
-}
-
-.card:hover .feature-icon {
-    transform: scale(1.1);
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
 }
 </style>
 {% endblock %}

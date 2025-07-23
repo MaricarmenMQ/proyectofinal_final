@@ -12,8 +12,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
     <!-- Google Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Custom CSS -->
     {% load static %}
@@ -48,8 +47,9 @@
                             </a>
                         </li>
 
+                        <!-- CORREGIDO: Cambiado dropdown-item por nav-link -->
                         <li class="nav-item">
-                            <a class="dropdown-item" href="{% url 'lista_gastos' %}">
+                            <a class="nav-link" href="{% url 'lista_gastos' %}">
                                 <i class="fas fa-money-bill-wave me-1"></i>Control de Gastos
                             </a>
                         </li>
@@ -70,43 +70,44 @@
                             </a>
                         </li>
                         <li class="nav-item me-2">
-                <a href="{% url 'perfil' %}" class="btn btn-outline-primary btn-sm">
-                    <i class="fas fa-user-circle me-1"></i>Mi Perfil
-                </a>
-            </li>
-            <!-- Menú de configuración -->
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-        <i class="fas fa-cog"></i>
-    </a>
-    <ul class="dropdown-menu">
-        <!-- Menú Académico -->
-        <li>
-            <a class="dropdown-item" href="{% url 'lista_cursos' %}">
-                <i class="fas fa-graduation-cap me-1"></i>Mis Cursos
-            </a>
-        </li>
-        <li>
-            <a class="dropdown-item" href="{% url 'lista_tareas' %}">
-                <i class="fas fa-tasks me-1"></i>Tareas Pendientes
-            </a>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-        <!-- Perfil y Cierre de Sesión -->
-        <li>
-            <a class="dropdown-item" href="{% url 'perfil' %}">
-                <i class="fas fa-user-circle me-1"></i>Mi Perfil
-            </a>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-        <li>
-            <a class="dropdown-item" href="{% url 'logout' %}">
-                <i class="fas fa-sign-out-alt me-1"></i>Cerrar Sesión
-            </a>
-        </li>
-    </ul>
-</li>
-        {% else %}
+                            <a href="{% url 'perfil' %}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-user-circle me-1"></i>Mi Perfil
+                            </a>
+                        </li>
+                        
+                        <!-- Menú de configuración -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-cog"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- Menú Académico -->
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'lista_cursos' %}">
+                                        <i class="fas fa-graduation-cap me-1"></i>Mis Cursos
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'lista_tareas' %}">
+                                        <i class="fas fa-tasks me-1"></i>Tareas Pendientes
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <!-- Perfil y Cierre de Sesión -->
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'perfil' %}">
+                                        <i class="fas fa-user-circle me-1"></i>Mi Perfil
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'logout' %}">
+                                        <i class="fas fa-sign-out-alt me-1"></i>Cerrar Sesión
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'login' %}">
                                 <i class="fas fa-sign-in-alt me-1"></i>Iniciar Sesión
