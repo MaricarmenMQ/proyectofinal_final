@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>
+                <i class="fas fa-graduation-cap me-2"></i>Mis Cursos
+            </h2>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoCursoModal">
+                <i class="fas fa-plus me-2"></i>Agregar Curso
+            </button>
+        </div>
+    </div>
+    
+    <div class="row g-4">
+        {% for curso in cursos %}
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm" style="border-left: 5px solid {{ curso.color }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ curso.nombre }}</h5>
+                    {% if curso.profesor %}
+                    <p class="mb-1">
+                        <i class="fas fa-user me-2"></i>{{ curso.profesor }}
+                    </p>
+                    {% endif %}
+                    {% if curso.horario %}
+                    <p class="mb-0">
+                        <i class="fas fa-clock me-2"></i>{{ curso.horario }}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>No has agregado ningún curso aún.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal para nuevo curso -->
+<div class="modal fade" id="nuevoCursoModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar Nuevo Curso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre del Curso *</label>
+                        <input type="text" class="form-control" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Profesor</label>
+                        <input type="text" class="form-control" name="profesor">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Horario</label>
+                        <input type="text" class="form-control" name="horario" 
+                               placeholder="Ej: Lunes y Miércoles 10:00-12:00">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Color</label>
+                        <input type="color" class="form-control" name="color" value="#3788d8">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Curso</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

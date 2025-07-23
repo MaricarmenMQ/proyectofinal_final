@@ -1,13 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils import timezone
 from datetime import date
-from .models import PerfilUsuario, EstadoAnimo, NotaRapida, Evento
+from .models import PerfilUsuario, EstadoAnimo, NotaRapida, Evento, Curso, Tarea
 from datetime import datetime
-
+from datetime import timedelta
+from django.http import HttpResponse
+import csv
 def inicio(request):
     """Página de inicio/landing page"""
     return render(request, 'studyflow/inicio.html')
@@ -83,9 +85,20 @@ def dashboard(request):
     # Obtener el estado de ánimo de hoy
     hoy = date.today()
     estado_hoy = EstadoAnimo.objects.filter(usuario=request.user, fecha=hoy).first()
+    notas_recientes = NotaRapida.objects.filter(usuario=request.user).order_by('-fecha_creacion')[:5]
     
-    # Obtener las últimas notas
-    notas_recientes = NotaRapida.objects.filter(usuario=request.user)[:5]
+    # Obtener próximos 3 eventos
+    eventos_proximos = Evento.objects.filter(
+        usuario=request.user,
+        fecha_inicio__gte=timezone.now()
+    ).order_by('fecha_inicio')[:3]
+    
+    # Obtener estado de ánimo semanal
+    estados_semana = EstadoAnimo.objects.filter(
+        usuario=request.user,
+        fecha__gte=timezone.now() - timedelta(days=7)
+    ).order_by('-fecha')
+    
     
     # Obtener estados de ánimo de la semana
     estados_semana = EstadoAnimo.objects.filter(usuario=request.user)[:7]
@@ -151,21 +164,44 @@ def crear_nota(request):
             return redirect('dashboard')
     
     return render(request, 'studyflow/crear_nota.html', {'preview': preview})
-
+@login_required
+def exportar_notas(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="mis_notas.csv"'
+    
+    writer = csv.writer(response)
+    writer.writerow(['Título', 'Contenido', 'Fecha'])
+    
+    notas = NotaRapida.objects.filter(usuario=request.user)
+    for nota in notas:
+        writer.writerow([nota.titulo, nota.contenido, nota.fecha_creacion])
+        
+    return response
 @login_required
 def perfil_usuario(request):
-    # Contar elementos del usuario
-    notas_count = NotaRapida.objects.filter(usuario=request.user).count()
-    estados_count = EstadoAnimo.objects.filter(usuario=request.user).count()
-    eventos_count = 0  # Por ahora es 0 hasta que implementemos eventos
-
-    context = {
-        'notas_count': notas_count,
-        'estados_count': estados_count,
-        'eventos_count': eventos_count,
+    promedio = EstadoAnimo.get_promedio_semanal(request.user)
+    
+    estadisticas = {
+        'notas_count': NotaRapida.objects.filter(usuario=request.user).count(),
+        'estados_count': EstadoAnimo.objects.filter(usuario=request.user).count(),
+        'eventos_count': Evento.objects.filter(usuario=request.user).count(),
+        'promedio_animo': promedio,
+        'promedio_porcentaje': (promedio / 5) * 100 if promedio else 0
     }
     
-    return render(request, 'studyflow/perfil.html', context)  
+    if request.method == 'POST':
+        # Actualizar perfil
+        perfil = request.user.perfilusuario
+        perfil.biografia = request.POST.get('biografia', '')
+        perfil.carrera = request.POST.get('carrera', '')
+        perfil.universidad = request.POST.get('universidad', '')
+        perfil.save()
+        messages.success(request, 'Perfil actualizado exitosamente')
+    
+    return render(request, 'studyflow/perfil.html', {
+        'estadisticas': estadisticas,
+        'perfil': request.user.perfilusuario
+    })
 
 @login_required
 def calendario(request):
@@ -200,4 +236,44 @@ def crear_evento(request):
         return redirect('calendario')
     return redirect('calendario')
     
-    return render(request, 'studyflow/crear_nota.html')
+@login_required
+def lista_cursos(request):
+    cursos = Curso.objects.filter(usuario=request.user)
+    
+    if request.method == 'POST':
+        nombre = request.POST['nombre']
+        profesor = request.POST.get('profesor', '')
+        horario = request.POST.get('horario', '')
+        color = request.POST.get('color', '#3788d8')
+        
+        Curso.objects.create(
+            usuario=request.user,
+            nombre=nombre,
+            profesor=profesor,
+            horario=horario,
+            color=color
+        )
+        messages.success(request, 'Curso agregado exitosamente')
+        return redirect('lista_cursos')
+    
+    return render(request, 'studyflow/cursos.html', {'cursos': cursos})
+
+@login_required
+def lista_tareas(request):
+    cursos = Curso.objects.filter(usuario=request.user)
+    tareas = Tarea.objects.filter(usuario=request.user, completada=False)
+    
+    context = {
+        'cursos': cursos,
+        'tareas': tareas
+    }
+    
+    return render(request, 'studyflow/tareas.html', context)
+
+@login_required
+def completar_tarea(request, tarea_id):
+    tarea = get_object_or_404(Tarea, id=tarea_id, usuario=request.user)
+    tarea.completada = True
+    tarea.save()
+    messages.success(request, 'Tarea marcada como completada')
+    return redirect('lista_tareas')

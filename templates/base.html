@@ -64,24 +64,37 @@
                 </a>
             </li>
             <!-- Menú de configuración -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                    <i class="fas fa-cog"></i>
-                </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a class="dropdown-item" href="{% url 'perfil' %}">
-                            <i class="fas fa-user-circle me-1"></i>Mi Perfil
-                        </a>
-                    </li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li>
-                        <a class="dropdown-item" href="{% url 'logout' %}">
-                            <i class="fas fa-sign-out-alt me-1"></i>Cerrar Sesión
-                        </a>
-                    </li>
-                </ul>
-            </li>
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+        <i class="fas fa-cog"></i>
+    </a>
+    <ul class="dropdown-menu">
+        <!-- Menú Académico -->
+        <li>
+            <a class="dropdown-item" href="{% url 'lista_cursos' %}">
+                <i class="fas fa-graduation-cap me-1"></i>Mis Cursos
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="{% url 'lista_tareas' %}">
+                <i class="fas fa-tasks me-1"></i>Tareas Pendientes
+            </a>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <!-- Perfil y Cierre de Sesión -->
+        <li>
+            <a class="dropdown-item" href="{% url 'perfil' %}">
+                <i class="fas fa-user-circle me-1"></i>Mi Perfil
+            </a>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            <a class="dropdown-item" href="{% url 'logout' %}">
+                <i class="fas fa-sign-out-alt me-1"></i>Cerrar Sesión
+            </a>
+        </li>
+    </ul>
+</li>
         {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'login' %}">
