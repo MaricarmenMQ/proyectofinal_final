@@ -238,6 +238,10 @@ def crear_evento(request):
         return redirect('calendario')
     return redirect('calendario')
     
+from .models import Curso, Evento
+from django.utils.dateparse import parse_datetime
+from datetime import datetime, timedelta
+
 @login_required
 def lista_cursos(request):
     cursos = Curso.objects.filter(usuario=request.user)
@@ -245,20 +249,36 @@ def lista_cursos(request):
     if request.method == 'POST':
         nombre = request.POST['nombre']
         profesor = request.POST.get('profesor', '')
-        horario = request.POST.get('horario', '')
+        horario = request.POST.get('horario', '')  # texto libre
         color = request.POST.get('color', '#3788d8')
         
-        Curso.objects.create(
+        curso = Curso.objects.create(
             usuario=request.user,
             nombre=nombre,
             profesor=profesor,
             horario=horario,
             color=color
         )
-        messages.success(request, 'Curso agregado exitosamente')
+
+        # 🎯 Crear un evento automático con horario ejemplo (personalizable)
+        fecha_inicio = datetime.now().replace(hour=10, minute=0, second=0, microsecond=0)
+        fecha_fin = fecha_inicio + timedelta(hours=2)  # 2 horas de duración por defecto
+
+        Evento.objects.create(
+            usuario=request.user,
+            titulo=f"{nombre} (Clase)",
+            descripcion=f"Clase de {nombre} con {profesor}",
+            fecha_inicio=fecha_inicio,
+            fecha_fin=fecha_fin,
+            color=color
+        )
+
+        messages.success(request, 'Curso y evento creado exitosamente')
         return redirect('lista_cursos')
     
     return render(request, 'studyflow/cursos.html', {'cursos': cursos})
+
+    
 
 @login_required
 def lista_tareas(request):
