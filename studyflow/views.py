@@ -5,7 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils import timezone
 from datetime import date
-from .models import PerfilUsuario, EstadoAnimo, NotaRapida, Evento, Curso, Tarea, Gasto
+from .models import PerfilUsuario, EstadoAnimo, NotaRapida, Evento, Curso, Tarea, Gasto, Presupuesto
+
 from datetime import datetime
 from datetime import timedelta
 from django.http import HttpResponse
@@ -282,18 +283,45 @@ def completar_tarea(request, tarea_id):
 @login_required
 def lista_gastos(request):
     gastos = Gasto.objects.filter(usuario=request.user)
+    presupuesto = Presupuesto.objects.filter(usuario=request.user).first()
     
     # Calcular total del mes actual
     mes_actual = timezone.now().month
     total_mes = gastos.filter(fecha__month=mes_actual).aggregate(
         total=Sum('monto'))['total'] or 0
     
+    # Calcular porcentaje del presupuesto usado
+    porcentaje_usado = 0
+    if presupuesto and presupuesto.monto > 0:
+        porcentaje_usado = (total_mes / presupuesto.monto) * 100
     context = {
         'gastos': gastos,
         'total_mes': total_mes,
+        'presupuesto': presupuesto,
+        'porcentaje_usado': porcentaje_usado
     }
     
     return render(request, 'studyflow/gastos.html', context)
+
+@login_required
+def establecer_presupuesto(request):
+    if request.method == 'POST':
+        monto = request.POST.get('monto')
+        periodo = request.POST.get('periodo', 'mensual')
+        
+        presupuesto, created = Presupuesto.objects.get_or_create(
+            usuario=request.user,
+            defaults={'monto': monto, 'periodo': periodo}
+        )
+        
+        if not created:
+            presupuesto.monto = monto
+            presupuesto.periodo = periodo
+            presupuesto.save()
+            
+        messages.success(request, 'Presupuesto actualizado exitosamente')
+        return redirect('lista_gastos')
+    return redirect('lista_gastos')
 
 @login_required
 def crear_gasto(request):
