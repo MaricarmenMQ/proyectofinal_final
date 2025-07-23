@@ -145,3 +145,68 @@ class Tarea(models.Model):
     
     def __str__(self):
         return f"{self.titulo} - {self.curso.nombre}"
+        
+class Gasto(models.Model):
+    CATEGORIA_CHOICES = [
+        ('materiales', 'Materiales de Estudio'),
+        ('libros', 'Libros'),
+        ('tecnologia', 'Tecnología'),
+        ('transporte', 'Transporte'),
+        ('Entretenimiento', 'Entretenimiento'),
+        ('otros', 'Otros'),
+    ]
+
+    PERIODO_CHOICES = [
+        ('semanal', 'Semanal'),
+        ('mensual', 'Mensual'),
+    ]
+
+    titulo = models.CharField(max_length=100)
+    monto = models.DecimalField(max_digits=10, decimal_places=2)
+    categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES)
+    fecha = models.DateField()
+    descripcion = models.TextField(blank=True, null=True)
+    periodo = models.CharField(max_length=10, choices=PERIODO_CHOICES)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.titulo} - ${self.monto}"
+    
+# ...existing code...
+
+class Presupuesto(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    monto = models.DecimalField(max_digits=10, decimal_places=2)
+    periodo = models.CharField(max_length=10, choices=Gasto.PERIODO_CHOICES)
+    fecha_inicio = models.DateField(auto_now_add=True)
+    alerta_porcentaje = models.IntegerField(default=80)  # Alerta cuando se alcance el 80% del presupuesto
+
+    def calcular_gastos_actuales(self):
+        from django.db.models import Sum
+        from django.utils import timezone
+        
+        fecha_actual = timezone.now().date()
+        if self.periodo == 'mensual':
+            gastos = Gasto.objects.filter(
+                usuario=self.usuario,
+                fecha__year=fecha_actual.year,
+                fecha__month=fecha_actual.month
+            )
+        else:  # semanal
+            from datetime import timedelta
+            inicio_semana = fecha_actual - timedelta(days=fecha_actual.weekday())
+            gastos = Gasto.objects.filter(
+                usuario=self.usuario,
+                fecha__gte=inicio_semana,
+                fecha__lte=fecha_actual
+            )
+        
+        total = gastos.aggregate(Sum('monto'))['monto__sum'] or 0
+        return total
+
+    def calcular_porcentaje_usado(self):
+        total_gastado = self.calcular_gastos_actuales()
+        return (total_gastado / self.monto) * 100
+
+    def __str__(self):
+        return f"Presupuesto de {self.usuario.username} - ${self.monto} ({self.get_periodo_display()})"
