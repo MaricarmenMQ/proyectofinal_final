@@ -49,6 +49,12 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="dropdown-item" href="{% url 'lista_gastos' %}">
+                                <i class="fas fa-money-bill-wave me-1"></i>Control de Gastos
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'registrar_estado' %}">
                                 <i class="fas fa-smile me-1"></i>Mi Estado
                             </a>
@@ -101,6 +107,7 @@
                                 <i class="fas fa-sign-in-alt me-1"></i>Iniciar Sesión
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link btn btn-primary text-white ms-2 px-3" href="{% url 'registro' %}">
                                 <i class="fas fa-user-plus me-1"></i>Registrarse

@@ -145,3 +145,29 @@ class Tarea(models.Model):
     
     def __str__(self):
         return f"{self.titulo} - {self.curso.nombre}"
+        
+class Gasto(models.Model):
+    CATEGORIA_CHOICES = [
+        ('materiales', 'Materiales de Estudio'),
+        ('libros', 'Libros'),
+        ('tecnologia', 'Tecnología'),
+        ('transporte', 'Transporte'),
+        ('Entretenimiento', 'Entretenimiento'),
+        ('otros', 'Otros'),
+    ]
+
+    PERIODO_CHOICES = [
+        ('semanal', 'Semanal'),
+        ('mensual', 'Mensual'),
+    ]
+
+    titulo = models.CharField(max_length=100)
+    monto = models.DecimalField(max_digits=10, decimal_places=2)
+    categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES)
+    fecha = models.DateField()
+    descripcion = models.TextField(blank=True, null=True)
+    periodo = models.CharField(max_length=10, choices=PERIODO_CHOICES)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.titulo} - ${self.monto}"

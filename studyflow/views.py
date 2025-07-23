@@ -5,10 +5,11 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils import timezone
 from datetime import date
-from .models import PerfilUsuario, EstadoAnimo, NotaRapida, Evento, Curso, Tarea
+from .models import PerfilUsuario, EstadoAnimo, NotaRapida, Evento, Curso, Tarea, Gasto
 from datetime import datetime
 from datetime import timedelta
 from django.http import HttpResponse
+from django.db.models import Sum
 import csv
 def inicio(request):
     """Página de inicio/landing page"""
@@ -277,3 +278,35 @@ def completar_tarea(request, tarea_id):
     tarea.save()
     messages.success(request, 'Tarea marcada como completada')
     return redirect('lista_tareas')
+
+@login_required
+def lista_gastos(request):
+    gastos = Gasto.objects.filter(usuario=request.user)
+    
+    # Calcular total del mes actual
+    mes_actual = timezone.now().month
+    total_mes = gastos.filter(fecha__month=mes_actual).aggregate(
+        total=Sum('monto'))['total'] or 0
+    
+    context = {
+        'gastos': gastos,
+        'total_mes': total_mes,
+    }
+    
+    return render(request, 'studyflow/gastos.html', context)
+
+@login_required
+def crear_gasto(request):
+    if request.method == 'POST':
+        gasto = Gasto.objects.create(
+            usuario=request.user,
+            titulo=request.POST['titulo'],
+            monto=request.POST['monto'],
+            categoria=request.POST['categoria'],
+            fecha=request.POST.get('fecha', timezone.now().date()),
+            descripcion=request.POST.get('descripcion', ''),
+            periodo=request.POST.get('periodo', 'mensual')
+        )
+        messages.success(request, 'Gasto registrado exitosamente')
+        return redirect('lista_gastos')
+    return redirect('lista_gastos')

@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>
+                <i class="fas fa-money-bill-wave me-2"></i>Control de Gastos
+            </h2>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoGastoModal">
+                <i class="fas fa-plus me-2"></i>Registrar Gasto
+            </button>
+        </div>
+    </div>
+
+    <!-- Resumen de Gastos -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Resumen del Mes</h5>
+                    <canvas id="gastosPorCategoria"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total de Gastos</h5>
+                    <h3 class="text-primary">${{ total_mes }}</h3>
+                    <p class="text-muted">Este mes</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista de Gastos -->
+    <div class="row">
+        <div class="col">
+            {% if gastos %}
+                {% for gasto in gastos %}
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">{{ gasto.titulo }}</h5>
+                                <span class="badge bg-primary">${{ gasto.monto }}</span>
+                            </div>
+                            <p class="text-muted small mb-2">
+                                <i class="fas fa-tag me-1"></i>{{ gasto.get_categoria_display }}
+                            </p>
+                            {% if gasto.descripcion %}
+                                <p class="card-text">{{ gasto.descripcion }}</p>
+                            {% endif %}
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    <i class="fas fa-calendar me-1"></i>{{ gasto.fecha|date:"d/m/Y" }}
+                                </small>
+                                <button class="btn btn-outline-danger btn-sm">
+                                    <i class="fas fa-trash me-1"></i>Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>No hay gastos registrados.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Modal para nuevo gasto -->
+<div class="modal fade" id="nuevoGastoModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Registrar Nuevo Gasto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Título *</label>
+                        <input type="text" class="form-control" name="titulo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Monto *</label>
+                        <input type="number" step="0.01" class="form-control" name="monto" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Categoría *</label>
+                        <select class="form-select" name="categoria" required>
+                            <option value="materiales">Materiales de Estudio</option>
+                                                 </select>
+                 </div>
+             </div>
+             <div class="modal-footer">
+                 <button type="submit" class="btn btn-primary">Guardar</button>
+                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+             </div>
+         </form>
+     </div>
+ </div>
+{% endblock %}
+
+
