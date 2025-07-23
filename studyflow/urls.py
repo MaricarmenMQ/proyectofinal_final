@@ -23,4 +23,8 @@ urlpatterns = [
     path('gastos/', views.lista_gastos, name='lista_gastos'),
     path('gastos/crear/', views.crear_gasto, name='crear_gasto'),
     path('presupuesto/establecer/', views.establecer_presupuesto, name='establecer_presupuesto'),
+    path('sesiones/', views.lista_sesiones, name='lista_sesiones'),
+    path('sesiones/iniciar/', views.iniciar_sesion_estudio, name='iniciar_sesion'),
+    path('sesiones/<int:sesion_id>/finalizar/', views.finalizar_sesion, name='finalizar_sesion'),
+
 ]   

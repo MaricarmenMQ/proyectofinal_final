@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils import timezone
 from datetime import date
-from .models import PerfilUsuario, EstadoAnimo, NotaRapida, Evento, Curso, Tarea, Gasto, Presupuesto
+from .models import PerfilUsuario, EstadoAnimo, NotaRapida, Evento, Curso, Tarea, Gasto, Presupuesto, SesionEstudio
 
 from datetime import datetime
 from datetime import timedelta
@@ -358,3 +358,70 @@ def crear_gasto(request):
         messages.success(request, 'Gasto registrado exitosamente')
         return redirect('lista_gastos')
     return redirect('lista_gastos')
+
+# ...existing code...
+
+@login_required
+def lista_sesiones(request):
+    sesiones = SesionEstudio.objects.filter(usuario=request.user)
+    
+    # Estadísticas generales
+    total_horas = timedelta()
+    total_sesiones = sesiones.count()
+    promedio_productividad = 0
+    
+    for sesion in sesiones:
+        if sesion.duracion_total():
+            total_horas += sesion.duracion_total()
+        promedio_productividad += sesion.productividad()
+    
+    if total_sesiones > 0:
+        promedio_productividad /= total_sesiones
+    
+    context = {
+        'sesiones': sesiones,
+        'total_horas': total_horas,
+        'total_sesiones': total_sesiones,
+        'promedio_productividad': promedio_productividad,
+        'cursos': Curso.objects.filter(usuario=request.user)
+    }
+    
+    return render(request, 'studyflow/sesiones_estudio.html', context)
+
+@login_required
+def iniciar_sesion_estudio(request):
+    if request.method == 'POST':
+        curso_id = request.POST.get('curso')
+        ambiente = request.POST.get('ambiente')
+        nivel_energia = request.POST.get('nivel_energia')
+        
+        sesion = SesionEstudio.objects.create(
+            usuario=request.user,
+            curso_id=curso_id,
+            ambiente=ambiente,
+            nivel_energia=nivel_energia,
+            nivel_concentracion=nivel_energia  # Inicial igual a energía
+        )
+        
+        messages.success(request, '¡Sesión de estudio iniciada!')
+        return redirect('detalle_sesion', sesion_id=sesion.id)
+    
+    return redirect('lista_sesiones')
+
+@login_required
+def finalizar_sesion(request, sesion_id):
+    sesion = get_object_or_404(SesionEstudio, id=sesion_id, usuario=request.user)
+    
+    if request.method == 'POST':
+        sesion.fecha_fin = timezone.now()
+        sesion.nivel_concentracion = request.POST.get('nivel_concentracion')
+        sesion.objetivos_cumplidos = request.POST.get('objetivos_cumplidos', '')
+        sesion.notas = request.POST.get('notas', '')
+        sesion.interrupciones = request.POST.get('interrupciones', 0)
+        sesion.descansos_tomados = request.POST.get('descansos_tomados', 0)
+        sesion.save()
+        
+        messages.success(request, '¡Sesión de estudio finalizada!')
+        return redirect('lista_sesiones')
+    
+    return redirect('detalle_sesion', sesion_id=sesion.id)
