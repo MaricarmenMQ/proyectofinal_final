@@ -370,13 +370,23 @@ def lista_gastos(request):
     if presupuesto and presupuesto.monto > 0:
         restante = presupuesto.monto - total_mes
         porcentaje_usado = (total_mes / presupuesto.monto) * 100
-        
+
+    # Agregar las categorías al contexto
+    CATEGORIAS_CHOICES = [
+        ('utiles', 'Útiles Escolares'),
+        ('libros', 'Libros'),
+        ('tecnologia', 'Tecnología'),
+        ('transporte', 'Transporte'),
+        ('comida', 'Comida'),
+        ('otros', 'Otros')
+    ]    
     context = {
         'gastos': gastos,
         'total_mes': total_mes,
         'presupuesto': presupuesto,
         'porcentaje_usado': porcentaje_usado,
         'restante': restante,
+        'categorias': CATEGORIAS_CHOICES,
     }
     
     return render(request, 'studyflow/gastos.html', context)
