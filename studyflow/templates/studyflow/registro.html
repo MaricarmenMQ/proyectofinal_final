@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 
 {% block title %}Registro - MyStudyFlow{% endblock %}
@@ -23,7 +22,7 @@
                         </label>
                         <input type="text" class="campo-formulario campo-formulario-lg" 
                                id="nombre_completo" name="nombre_completo" 
-                               placeholder="Tu nombre completo">
+                               placeholder="Tu nombre completo" required>
                     </div>
 
                     <div class="mb-3">
@@ -50,15 +49,7 @@
                         </label>
                         <input type="password" class="campo-formulario campo-formulario-lg" 
                                id="password" name="password" 
-                               placeholder="Mínimo 6 caracteres"required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="nombre_completo" class="etiqueta-campo">
-                            <i class="fas fa-user me-2"></i>Nombre completo
-                        </label>
-                        <input type="text" class="campo-formulario campo-formulario-lg" 
-                               id="nombre_completo" name="nombre_completo" required>
+                               placeholder="Mínimo 6 caracteres" required>
                     </div>
 
                     <div class="mb-3">
@@ -67,6 +58,15 @@
                         </label>
                         <input type="date" class="campo-formulario campo-formulario-lg" 
                                id="fecha_nacimiento" name="fecha_nacimiento" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edad" class="etiqueta-campo">
+                            <i class="fas fa-calendar-alt me-2"></i>Edad
+                        </label>
+                        <input type="number" class="campo-formulario campo-formulario-lg" 
+                               id="edad" name="edad" min="1" max="120" 
+                               placeholder="Tu edad" required>
                     </div>
 
                     <div class="mb-3">

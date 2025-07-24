@@ -31,7 +31,8 @@ def registro_usuario(request):
         genero = request.POST.get('genero', '')
         pais = request.POST.get('pais', '')
         foto_perfil = request.FILES.get('foto_perfil', None)
-
+        edad = request.POST.get('edad')
+        
         if len(password) < 6:
             messages.error(request, 'La contraseña debe tener al menos 6 caracteres')
             return render(request, 'studyflow/registro.html')
@@ -53,14 +54,22 @@ def registro_usuario(request):
             except ValueError:
                 messages.error(request, 'Fecha de nacimiento inválida')
                 return render(request, 'studyflow/registro.html')
-
+        edad_int = None
+        if edad:
+            try:
+                edad_int = int(edad)
+            except ValueError:
+                messages.error(request, 'Edad inválida')
+                return render(request, 'studyflow/registro.html')
+            
         PerfilUsuario.objects.create(
             usuario=usuario,
             nombre_completo=nombre_completo,
             fecha_nacimiento=fecha_nacimiento,
             genero=genero,
             pais=pais,
-            foto_perfil=foto_perfil
+            foto_perfil=foto_perfil,
+            edad=edad_int
         )
 
         messages.success(request, 'Usuario registrado exitosamente')

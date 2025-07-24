@@ -27,6 +27,7 @@ class PerfilUsuario(models.Model):
     universidad = models.CharField(max_length=100, blank=True)
     tema_preferido = models.CharField(max_length=10, choices=TEMAS_CHOICES, default='claro')
     fecha_actualizacion = models.DateTimeField(auto_now=True)
+    edad = models.IntegerField(null=True, blank=True)
     
     def calcular_edad(self):
         from datetime import date
