@@ -5,8 +5,8 @@
     <div class="row">
         <!-- Información Principal -->
         <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
+            <div class="tarjeta shadow-sm">
+                <div class="tarjeta-body text-center">
                         {% if user.perfilusuario.foto_perfil %}
                             <img src="{{ user.perfilusuario.foto_perfil.url }}"
                                 class="rounded-circle mb-3"
@@ -33,9 +33,9 @@
 
         <!-- Estadísticas y Actividad -->
         <div class="col-md-8">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title mb-4">Actividad Reciente</h5>
+            <div class="tarjeta shadow-sm">
+                <div class="tarjeta-body">
+                    <h5 class="tarjeta-title mb-4">Actividad Reciente</h5>
                     
                     <!-- Estadísticas Básicas -->
                     <div class="row g-4 mb-4">
@@ -79,9 +79,9 @@
             </div>
 
             <!-- Editar Perfil -->
-            <div class="card shadow-sm mt-4">
-                <div class="card-body">
-                    <h5 class="card-title mb-4">Editar Perfil</h5>
+            <div class="tarjeta shadow-sm mt-4">
+                <div class="tarjeta-body">
+                    <h5 class="tarjeta-title mb-4">Editar Perfil</h5>
                     <form method="post">
                         {% csrf_token %}
                         <div class="mb-3">

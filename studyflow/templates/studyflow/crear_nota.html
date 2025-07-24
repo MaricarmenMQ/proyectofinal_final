@@ -5,14 +5,14 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-lg-8">
-        <div class="card shadow border-0">
-            <div class="card-header bg-warning text-dark text-center">
+        <div class="tarjeta shadow border-0">
+            <div class="tarjeta-header bg-warning text-dark text-center">
                 <h4 class="mb-0">
                     <i class="fas fa-sticky-note me-2"></i>Crear Nueva Nota
                 </h4>
                 <small>Captura tus ideas, apuntes y pensamientos</small>
             </div>
-            <div class="card-body p-4">
+            <div class="tarjeta-body p-4">
                 <form method="post">
                     {% csrf_token %}
                     
@@ -66,13 +66,13 @@
 
         {% if preview %}
         <!-- Vista previa -->
-        <div class="card mt-4 shadow-sm">
-            <div class="card-header bg-light">
+        <div class="tarjeta mt-4 shadow-sm">
+            <div class="tarjeta-header bg-light">
                 <h6 class="mb-0">
                     <i class="fas fa-eye me-2"></i>Vista Previa
                 </h6>
             </div>
-            <div class="card-body">
+            <div class="tarjeta-body">
                 <h5>{{ preview.titulo|default:"Sin título" }}</h5>
                 <p>{{ preview.contenido|default:"Sin contenido"|linebreaks }}</p>
                 <small class="text-muted">

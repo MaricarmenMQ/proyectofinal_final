@@ -243,7 +243,7 @@ body {
 }
 
 /* ===== CARDS ===== */
-.card {
+.tarjeta {
     border-radius: var(--border-radius);
     border: none;
     box-shadow: var(--box-shadow);
@@ -251,12 +251,12 @@ body {
     overflow: hidden;
 }
 
-.card:hover {
+.tarjeta:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(0,0,0,0.15);
 }
 
-.card-header {
+.tarjeta-header {
     border: none;
     font-weight: 600;
 }
