@@ -13,6 +13,9 @@ from django.http import HttpResponse
 from django.db.models import Sum
 from decimal import Decimal
 import csv
+from django.conf import settings
+import os 
+
 def inicio(request):
     """Página de inicio/landing page"""
     return render(request, 'studyflow/inicio.html')
@@ -217,18 +220,20 @@ def perfil_usuario(request):
     }
     
     if request.method == 'POST':
-        # Actualizar perfil
         perfil.biografia = request.POST.get('biografia', '')
         perfil.carrera = request.POST.get('carrera', '')
         perfil.universidad = request.POST.get('universidad', '')
         perfil.nombre_completo = request.POST.get('nombre_completo', '')
+        perfil.genero = request.POST.get('genero', '')
+        perfil.fecha_nacimiento = request.POST.get('fecha_nacimiento', None)
+        perfil.pais = request.POST.get('pais', '')
         perfil.save()
         messages.success(request, 'Perfil actualizado exitosamente')
-        return redirect('perfil_usuario')
+        return redirect('perfil')
     
     return render(request, 'studyflow/perfil.html', {
         'estadisticas': estadisticas,
-        'perfil': perfil  # Usar la variable perfil que creamos
+        'perfil': perfil 
     })
 
 @login_required
@@ -506,3 +511,42 @@ def finalizar_sesion(request, sesion_id):
         return redirect('lista_sesiones')
     
     return redirect('detalle_sesion', sesion_id=sesion.id)
+
+@login_required
+def tablas(request):
+    
+    # todos los datos
+    usuarios = User.objects.select_related('perfilusuario').all()
+    estados = EstadoAnimo.objects.select_related('usuario').all().order_by('-fecha')[:50]  # Últimos 50
+    notas = NotaRapida.objects.select_related('usuario').all().order_by('-fecha_creacion')[:50]  # Últimas 50
+    cursos = Curso.objects.select_related('usuario').all()
+    gastos = Gasto.objects.select_related('usuario').all().order_by('-fecha')[:50]  # Últimos 50
+    
+    # Calcular totales
+    total_gastos_monto = gastos.aggregate(total=Sum('monto'))['total'] or 0
+    
+    # Ruta de la base de datos
+    db_path = settings.DATABASES['default']['NAME']
+    
+    context = {
+        # Datos
+        'usuarios': usuarios,
+        'estados': estados,
+        'notas': notas,
+        'cursos': cursos,
+        'gastos': gastos,
+        
+        # Totales para el resumen
+        'total_usuarios': usuarios.count(),
+        'total_estados': EstadoAnimo.objects.count(),
+        'total_notas': NotaRapida.objects.count(),
+        'total_cursos': cursos.count(),
+        'total_gastos': Gasto.objects.count(),
+        'total_gastos_monto': total_gastos_monto,
+        
+        # Info adicional
+        'db_path': os.path.basename(str(db_path)),
+        'fecha_actual': timezone.now(),
+    }
+    
+    return render(request, 'studyflow/tablas.html', context)

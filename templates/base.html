@@ -42,7 +42,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 {% if user.is_authenticated %}
-                    <!-- Elementos esenciales siempre visibles -->
+                    
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'dashboard' %}">
                             <i class="fas fa-tachometer-alt me-1"></i>Dashboard
@@ -55,7 +55,7 @@
                         </a>
                     </li>
 
-                    <!-- Dropdown: Académico -->
+                    
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="fas fa-graduation-cap me-1"></i>Académico
@@ -79,7 +79,7 @@
                         </ul>
                     </li>
 
-                    <!-- Dropdown: Herramientas -->
+                    
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="fas fa-tools me-1"></i>Herramientas
@@ -103,14 +103,14 @@
                         </ul>
                     </li>
 
-                    <!-- Botón Mi Perfil destacado -->
+                    <!--MI PERFIL-->
                     <li class="nav-item me-2">
                         <a href="{% url 'perfil' %}" class="btn btn-outline-primary btn-sm">
                             <i class="fas fa-user-circle me-1"></i>Mi Perfil
                         </a>
                     </li>
                     
-                    <!-- Dropdown: Configuración -->
+                    <!--Configuración -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="fas fa-cog"></i>
@@ -146,7 +146,7 @@
     </div>
 </nav>
 
-    <!-- Messages -->
+    <!-- Mensajes -->
     {% if messages %}
         <div class="container mt-3">
             {% for message in messages %}
@@ -158,12 +158,12 @@
         </div>
     {% endif %}
 
-    <!-- Main Content -->
+    
     <main class="{% block main_class %}container my-5{% endblock %}">
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
+    
     <footer class="bg-light mt-5 py-4">
         <div class="container text-center">
             <p class="mb-0 text-muted">

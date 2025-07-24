@@ -1,0 +1,159 @@
+<!-- studyflow/templates/studyflow/todas_tablas.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Base de Datos - StudyFlow</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; font-weight: bold; }
+        h2 { color: #333; margin-top: 30px; }
+        .resumen { background-color: #f9f9f9; padding: 15px; margin: 20px 0; }
+        .monto { text-align: right; }
+        .navegacion { margin: 20px 0; }
+        .navegacion a { margin-right: 15px; text-decoration: none; color: blue; }
+    </style>
+</head>
+<body>
+    <h1> DATOS </h1>
+
+
+    <!-- RESUMEN GENERAL -->
+    <div class="resumen">
+        <h3> Resumen General del Sistema</h3>
+        <p><strong>Total Usuarios:</strong> {{ total_usuarios }}</p>
+        <p><strong>Total Notas:</strong> {{ total_notas }}</p>
+        <p><strong>Total Cursos:</strong> {{ total_cursos }}</p>
+        <p><strong>Total Gastos:</strong> {{ total_gastos }}</p>
+        <p><strong>Total Estados:</strong> {{ total_estados }}</p>
+    </div>
+
+    <!-- TABLA USUARIOS -->
+    <h2 id="usuarios"> Usuarios Registrados</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Email</th>
+            <th>Nombre Completo</th>
+            <th>Fecha Registro</th>
+            <th>Activo</th>
+        </tr>
+        {% for usuario in usuarios %}
+        <tr>
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.username }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.perfilusuario.nombre_completo|default:"-" }}</td>
+            <td>{{ usuario.date_joined|date:"d/m/Y" }}</td>
+            <td>{% if usuario.is_active %}Sí{% else %}No{% endif %}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6">No hay usuarios</td></tr>
+        {% endfor %}
+    </table>
+
+    <!-- TABLA ESTADOS DE ÁNIMO -->
+    <h2 id="estados"> Estados de Ánimo</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th>Comentario</th>
+        </tr>
+        {% for estado in estados %}
+        <tr>
+            <td>{{ estado.id }}</td>
+            <td>{{ estado.usuario.username }}</td>
+            <td>{{ estado.estado }}/5</td>
+            <td>{{ estado.fecha|date:"d/m/Y" }}</td>
+            <td>{{ estado.comentario|default:"-" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No hay estados registrados</td></tr>
+        {% endfor %}
+    </table>
+
+    <!-- TABLA NOTAS -->
+    <h2 id="notas"> Notas Rápidas</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Título</th>
+            <th>Contenido</th>
+            <th>Importante</th>
+            <th>Fecha</th>
+        </tr>
+        {% for nota in notas %}
+        <tr>
+            <td>{{ nota.id }}</td>
+            <td>{{ nota.usuario.username }}</td>
+            <td>{{ nota.titulo }}</td>
+            <td>{{ nota.contenido|truncatewords:8 }}</td>
+            <td>{% if nota.importante %}Sí{% else %}No{% endif %}</td>
+            <td>{{ nota.fecha_creacion|date:"d/m/Y" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6">No hay notas</td></tr>
+        {% endfor %}
+    </table>
+
+    <!-- TABLA CURSOS -->
+    <h2 id="cursos"> Cursos</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Nombre</th>
+            <th>Profesor</th>
+            <th>Horario</th>
+        </tr>
+        {% for curso in cursos %}
+        <tr>
+            <td>{{ curso.id }}</td>
+            <td>{{ curso.usuario.username }}</td>
+            <td>{{ curso.nombre }}</td>
+            <td>{{ curso.profesor|default:"-" }}</td>
+            <td>{{ curso.horario|default:"-" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No hay cursos</td></tr>
+        {% endfor %}
+    </table>
+
+    <!-- TABLA GASTOS -->
+    <h2 id="gastos"> Control de Gastos</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Título</th>
+            <th>Monto</th>
+            <th>Categoría</th>
+            <th>Fecha</th>
+        </tr>
+        {% for gasto in gastos %}
+        <tr>
+            <td>{{ gasto.id }}</td>
+            <td>{{ gasto.usuario.username }}</td>
+            <td>{{ gasto.titulo }}</td>
+            <td class="monto">S/. {{ gasto.monto }}</td>
+            <td>{{ gasto.categoria }}</td>
+            <td>{{ gasto.fecha|date:"d/m/Y" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6">No hay gastos</td></tr>
+        {% endfor %}
+    </table>
+
+    <div class="resumen">
+        <p><strong> Base de datos SQLite:</strong> {{ db_path }}</p>
+        <p><strong> Última actualización:</strong> {{ fecha_actual|date:"d/m/Y H:i:s" }}</p>
+    </div>
+
+</body>
+</html>
