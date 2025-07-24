@@ -21,14 +21,14 @@
                     </p>
                     
                     {% if user.is_authenticated %}
-                        <a href="{% url 'dashboard' %}" class="btn btn-warning btn-lg me-3">
+                        <a href="{% url 'dashboard' %}" class="boton boton-advertencia boton-lg me-3">
                             <i class="fas fa-tachometer-alt me-2"></i>IR A DASHBOARD
                         </a>
                     {% else %}
-                        <a href="{% url 'registro' %}" class="btn btn-warning btn-lg me-3">
+                        <a href="{% url 'registro' %}" class="boton boton-advertencia boton-lg me-3">
                             <i class="fas fa-user-plus me-2"></i>COMENZAR GRATIS
                         </a>
-                        <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg">
+                        <a href="{% url 'login' %}" class="boton boton-borde-claro boton-lg">
                             <i class="fas fa-sign-in-alt me-2"></i>INICIAR SESIÓN
                         </a>
                     {% endif %}
@@ -187,7 +187,7 @@
     <div class="container text-center text-white">
         <h2 class="fw-bold mb-3">¿Listo para organizarte?</h2>
         <p class="lead mb-4">Únete a miles de estudiantes que ya organizan su vida con MyStudyFlow</p>
-        <a href="{% url 'registro' %}" class="btn btn-light btn-lg">
+        <a href="{% url 'registro' %}" class="boton boton-claro boton-lg">
             <i class="fas fa-rocket me-2"></i>COMENZAR AHORA
         </a>
     </div>

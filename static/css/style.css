@@ -146,7 +146,8 @@ body {
     border-radius: 3px;
 }
 /* ===== BOTONES ===== */
-.btn {
+/* ===== BOTONES ===== */
+.boton {
     border-radius: 50px;
     font-weight: 600;
     padding: 0.7rem 1.5rem;
@@ -158,92 +159,126 @@ body {
     text-decoration: none;
     display: inline-block;
     cursor: pointer;
-    position: relative;
-    z-index: 10;
 }
 
-.btn:hover,
-.btn:focus,
-.btn:active {
+.boton:hover,
+.boton:focus {
     text-decoration: none;
-    outline: none;
+    transform: translateY(-3px);
 }
 
-.btn-primary {
+/* Tamaños */
+.boton-lg {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+.boton-sm {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+}
+
+/* Colores sólidos */
+.boton-primario {
     background: var(--gradient-primary);
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
     color: white;
 }
 
-.btn-primary:hover {
-    transform: translateY(-3px);
+.boton-primario:hover {
     box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
     color: white;
 }
 
-.btn-light {
+.boton-secundario {
+    background-color: #6c757d;
+    color: white;
+}
+
+.boton-secundario:hover {
+    background-color: #5a6268;
+    color: white;
+}
+
+.boton-claro {
     background-color: #f8f9fa;
-    border-color: #f8f9fa;
     color: #212529;
 }
 
-.btn-light:hover {
+.boton-claro:hover {
     background-color: #e9ecef;
-    border-color: #dae0e5;
     color: #212529;
-    transform: translateY(-3px);
 }
 
-.btn-warning {
+.boton-advertencia {
     background: linear-gradient(135deg, #ffe066 0%, #ffb347 100%);
     color: #333;
     box-shadow: 0 4px 15px rgba(255, 224, 102, 0.3);
 }
 
-.btn-warning:hover {
-    transform: translateY(-3px);
+.boton-advertencia:hover {
     box-shadow: 0 8px 25px rgba(255, 224, 102, 0.4);
     color: #333;
 }
 
-.btn-success {
+.boton-exito {
     background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
     box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
     color: white;
 }
 
-.btn-success:hover {
+.boton-exito:hover {
     color: white;
-    transform: translateY(-3px);
 }
 
-.btn-outline-primary {
+.boton-peligro {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.boton-peligro:hover {
+    background-color: #e55353;
+    color: white;
+}
+
+/* Botones con borde */
+.boton-borde-primario {
     border: 2px solid var(--primary-color);
     color: var(--primary-color);
     background: transparent;
 }
 
-.btn-outline-primary:hover {
+.boton-borde-primario:hover {
     background: var(--gradient-primary);
     border-color: transparent;
-    transform: translateY(-3px);
     color: white;
 }
 
-.btn-outline-light {
+.boton-borde-secundario {
+    border: 2px solid #6c757d;
+    color: #6c757d;
+    background: transparent;
+}
+
+.boton-borde-secundario:hover {
+    background: #6c757d;
+    color: white;
+}
+
+.boton-borde-claro {
     border: 2px solid #f8f9fa;
     color: #f8f9fa;
     background: transparent;
 }
 
-.btn-outline-light:hover {
+.boton-borde-claro:hover {
     background: #f8f9fa;
     color: #212529;
-    transform: translateY(-3px);
 }
 
 /* ===== CARDS ===== */
 .tarjeta {
+    background-color: #fff;
     border-radius: var(--border-radius);
     border: none;
     box-shadow: var(--box-shadow);
@@ -257,7 +292,19 @@ body {
 }
 
 .tarjeta-header {
+    padding: 1rem 1.25rem;
     border: none;
+    font-weight: 600;
+    background-color: rgba(0,0,0,0.03);
+    border-bottom: 1px solid rgba(0,0,0,0.125);
+}
+
+.tarjeta-body {
+    padding: 1.25rem;
+}
+
+.tarjeta-title {
+    margin-bottom: 0.75rem;
     font-weight: 600;
 }
 
@@ -350,12 +397,12 @@ body {
 }
 
 /* ===== RADIO BUTTONS ===== */
-label.btn {
+label.boton {
     white-space: normal;
     word-wrap: break-word;
 }
 
-.btn-check:checked + .btn-outline-primary {
+.boton-check:checked + .boton-borde-primario {
     background: var(--gradient-primary);
     border-color: transparent;
     transform: scale(1.05);
@@ -516,3 +563,4 @@ label.btn {
     max-height: 350px;
     overflow-y: auto;
 }
+

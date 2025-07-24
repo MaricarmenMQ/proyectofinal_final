@@ -20,17 +20,16 @@
                     <div class="mb-4">
                         <label class="form-label fw-bold">Selecciona tu estado:</label>
                         <div class="row justify-content-center">
-    {% for valor, etiqueta in estados %}
-    <div class="col-6 col-sm-4 col-md-3 mb-4">
-        <input type="radio" class="btn-check" name="estado" id="estado_{{ forloop.counter }}" value="{{ valor }}" required>
-        <label class="btn btn-outline-primary w-100 py-3 d-flex flex-column align-items-center justify-content-center rounded-4 shadow-sm text-wrap text-break" for="estado_{{ forloop.counter }}">
-            <span class="estado-emoji mb-2" style="font-size: 2.5rem;">{{ etiqueta|first }}</span>
-            <small class="fw-semibold text-center">{{ etiqueta|slice:"1:" }}</small>
-        </label>
-    </div>
-    {% endfor %}
-</div>
-
+                        {% for valor, etiqueta in estados %}
+                        <div class="col-6 col-sm-4 col-md-3 mb-4">
+                            <input type="radio" class="btn-check" name="estado" id="estado_{{ forloop.counter }}" value="{{ valor }}" required>
+                            <label class="btn btn-outline-primary w-100 py-3 d-flex flex-column align-items-center justify-content-center rounded-4 shadow-sm text-wrap text-break" for="estado_{{ forloop.counter }}">
+                                <span class="estado-emoji mb-2" style="font-size: 2.5rem;">{{ etiqueta|first }}</span>
+                                <small class="fw-semibold text-center">{{ etiqueta|slice:"1:" }}</small>
+                            </label>
+                        </div>
+                        {% endfor %}
+                        </div>
                     </div>
 
                     <div class="mb-4">
@@ -44,10 +43,10 @@
                     </div>
 
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary btn-lg">
+                        <button type="submit" class="boton boton-primario boton-lg">
                             <i class="fas fa-save me-2"></i>Guardar Mi Estado
                         </button>
-                        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">
+                        <a href="{% url 'dashboard' %}" class="boton boton-borde-secundario">
                             <i class="fas fa-arrow-left me-2"></i>Volver al Dashboard
                         </a>
                     </div>

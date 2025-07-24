@@ -7,7 +7,7 @@
             <h2>
                 <i class="fas fa-tasks me-2"></i>Tareas Pendientes
             </h2>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevaTareaModal">
+            <button class="boton boton-primario" data-bs-toggle="modal" data-bs-target="#nuevaTareaModal">
                 <i class="fas fa-plus me-2"></i>Agregar Tarea
             </button>
         </div>
@@ -38,11 +38,11 @@
                                 <div>
                                     <form method="post" action="{% url 'completar_tarea' tarea.id %}" class="d-inline">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-success btn-sm">
+                                        <button type="submit" class="boton boton-exito boton-sm">
                                             <i class="fas fa-check me-1"></i>Completar
                                         </button>
                                     </form>
-                                    <button class="btn btn-outline-danger btn-sm ms-2">
+                                    <button class="boton boton-borde-secundario boton-sm ms-2">
                                         <i class="fas fa-trash me-1"></i>Eliminar
                                     </button>
                                 </div>
@@ -58,8 +58,6 @@
         </div>
     </div>
 </div>
-
-
 
 <!-- Modal para nueva tarea -->
 <div class="modal fade" id="nuevaTareaModal">
@@ -102,8 +100,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar Tarea</button>
+                    <button type="button" class="boton boton-secundario" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="boton boton-primario">Guardar Tarea</button>
                 </div>
             </form>
         </div>

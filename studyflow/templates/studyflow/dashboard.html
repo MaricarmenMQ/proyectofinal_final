@@ -45,24 +45,26 @@
                     </div>
                 {% endif %}
                 
-                <a href="{% url 'registrar_estado' %}" class="btn btn-outline-primary">
+                <a href="{% url 'registrar_estado' %}" class="boton boton-borde-primario">
                     <i class="fas fa-edit me-2"></i>
                     {% if estado_hoy %}Actualizar{% else %}Registrar{% endif %}
                 </a>
             </div>
         </div>
     </div>
-<!-- Agregar después de la sección de estado de ánimo -->
-{% if control.gastos.consejo_inteligente %}
-<div class="col-lg-12 mt-4">
-    <div class="tarjeta border-warning">
-        <div class="tarjeta-body">
-            <h6 class="text-warning">💡 Consejo Inteligente</h6>
-            <p class="mb-0">{{ control.gastos.consejo_inteligente }}</p>
+
+    <!-- Agregar después de la sección de estado de ánimo -->
+    {% if control.gastos.consejo_inteligente %}
+    <div class="col-lg-12 mt-4">
+        <div class="tarjeta border-warning">
+            <div class="tarjeta-body">
+                <h6 class="text-warning">💡 Consejo Inteligente</h6>
+                <p class="mb-0">{{ control.gastos.consejo_inteligente }}</p>
+            </div>
         </div>
     </div>
-</div>
-{% endif %}
+    {% endif %}
+
     <!-- Notas Rápidas -->
     <div class="col-lg-8">
         <div class="tarjeta h-100 shadow-sm">
@@ -70,7 +72,7 @@
                 <h5 class="tarjeta-title mb-0">
                     <i class="fas fa-sticky-note me-2 text-warning"></i>Mis Notas Recientes
                 </h5>
-                <a href="{% url 'crear_nota' %}" class="btn btn-primary btn-sm">
+                <a href="{% url 'crear_nota' %}" class="boton boton-primario boton-sm">
                     <i class="fas fa-plus me-1"></i>Nueva Nota
                 </a>
             </div>
@@ -103,7 +105,7 @@
                     <div class="text-center text-muted py-4">
                         <i class="fas fa-file-alt mb-3" style="font-size: 3rem;"></i>
                         <p>No tienes notas aún. ¡Crea tu primera nota!</p>
-                        <a href="{% url 'crear_nota' %}" class="btn btn-primary">
+                        <a href="{% url 'crear_nota' %}" class="boton boton-primario">
                             <i class="fas fa-plus me-2"></i>Crear Nota
                         </a>
                     </div>
