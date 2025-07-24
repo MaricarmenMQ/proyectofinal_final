@@ -1,10 +1,10 @@
-<!-- studyflow/templates/studyflow/dashboard.html -->
+
 {% extends 'base.html' %}
 
 {% block title %}Dashboard - MyStudyFlow{% endblock %}
 
 {% block content %}
-<!-- Welcome Header -->
+
 <div class="row mb-4">
     <div class="col-12">
         <div class="tarjeta bg-primary text-white shadow-sm">
@@ -17,7 +17,7 @@
 </div>
 
 <div class="row g-4">
-    <!-- Estado de Ánimo Hoy -->
+    <!-- ESTADO ÀNIMO  -->
     <div class="col-lg-4">
         <div class="tarjeta h-100 shadow-sm">
             <div class="tarjeta-header bg-white">
@@ -53,7 +53,6 @@
         </div>
     </div>
 
-    <!-- Agregar después de la sección de estado de ánimo -->
     {% if control.gastos.consejo_inteligente %}
     <div class="col-lg-12 mt-4">
         <div class="tarjeta border-warning">
@@ -65,7 +64,7 @@
     </div>
     {% endif %}
 
-    <!-- Notas Rápidas -->
+    <!-- NOTAS -->
     <div class="col-lg-8">
         <div class="tarjeta h-100 shadow-sm">
             <div class="tarjeta-header bg-white d-flex justify-content-between align-items-center">
@@ -115,7 +114,7 @@
     </div>
 </div>
 
-<!-- Estados de la Semana -->
+<!-- ESTADOS EN LA SEMANA -->
 {% if estados_semana %}
 <div class="row mt-4">
     <div class="col-12">

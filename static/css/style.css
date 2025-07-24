@@ -1,6 +1,4 @@
-/* static/css/style.css - VERSIÓN REFACTORIZADA Y LIMPIA */
 
-/* ===== VARIABLES CSS ===== */
 :root {
     --primary-color: #667eea;
     --secondary-color: #764ba2;
@@ -16,7 +14,6 @@
     --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
 }
 
-/* ===== RESET Y BASE ===== */
 * {
     box-sizing: border-box;
 }
@@ -33,7 +30,6 @@ body {
     max-width: 1200px;
 }
 
-/* ===== NAVBAR ===== */
 .navbar {
     backdrop-filter: blur(10px);
     background: rgba(255, 255, 255, 0.95) !important;
@@ -82,8 +78,8 @@ body {
     width: 100%;
 }
 
-/* ===== DROPDOWN ===== */
-/* ===== DROPDOWN MEJORADO ===== */
+/* MENÙ */
+
 .menu-desplegable {
     z-index: 1100;
     border: none;
@@ -93,7 +89,7 @@ body {
     padding: 0.5rem;
     min-width: 250px;
     max-width: 400px;
-    max-height: 60vh; /* 60% de la altura de la ventana */
+    max-height: 60vh; 
     overflow-y: auto;
     overflow-x: hidden;
     position: absolute;
@@ -110,7 +106,7 @@ body {
     transition: all 0.3s ease;
     color: #333;
     text-decoration: none;
-    white-space: normal; /* Permite que el texto se ajuste */
+    white-space: normal; 
     word-wrap: break-word;
 }
 
@@ -131,7 +127,6 @@ body {
     z-index: 1100;
 }
 
-/* Scroll personalizado para dropdown */
 .menu-desplegable::-webkit-scrollbar {
     width: 6px;
 }
@@ -167,7 +162,6 @@ body {
     transform: translateY(-3px);
 }
 
-/* Tamaños */
 .boton-lg {
     padding: 1rem 2rem;
     font-size: 1.1rem;
@@ -178,7 +172,6 @@ body {
     font-size: 0.8rem;
 }
 
-/* Colores sólidos */
 .boton-primario {
     background: var(--gradient-primary);
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
@@ -276,7 +269,7 @@ body {
     color: #212529;
 }
 
-/* ===== CARDS ===== */
+/* TARJETAS */
 .tarjeta {
     background-color: #fff;
     border-radius: var(--border-radius);
@@ -308,7 +301,6 @@ body {
     font-weight: 600;
 }
 
-/* ===== HERO SECTION - CORREGIDA ===== */
 .hero-section {
     position: relative;
     overflow: hidden;
@@ -409,7 +401,6 @@ body {
     }
 }
 
-/* ===== RADIO BUTTONS ===== */
 label.boton {
     white-space: normal;
     word-wrap: break-word;
@@ -448,7 +439,6 @@ label.boton {
     white-space: normal;
 }
 
-/* ===== ALERTAS ===== */
 .alerta {
     padding: 1rem 1.5rem;
     border-radius: var(--border-radius);
@@ -510,7 +500,6 @@ label.boton {
     }
 }
 
-/* ===== SCROLL PERSONALIZADO ===== */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -528,7 +517,6 @@ label.boton {
     background: #5a67d8;
 }
 
-/* ===== PIE DE PÁGINA ===== */
 .footer {
     background: var(--dark-color);
     color: #fff;
@@ -544,7 +532,7 @@ label.boton {
 .footer a:hover {
     text-decoration: underline;
 }
-/* ===== NAVBAR RESPONSIVE OPTIMIZADO ===== */
+
 @media (max-width: 1200px) {
     .navbar .nav-link {
         font-size: 0.9rem;
@@ -571,7 +559,6 @@ label.boton {
     }
 }
 
-/* Mejorar dropdowns */
 .dropdown-menu {
     max-height: 350px;
     overflow-y: auto;

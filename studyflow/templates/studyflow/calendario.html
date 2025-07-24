@@ -18,7 +18,7 @@
     </div>
 </div>
 
-<!-- Modal para nuevo evento -->
+<!-- NUEVO EVENTO-->
 <div class="modal fade" id="nuevoEventoModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -83,7 +83,6 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         events: {{ eventos|safe }},
         eventClick: function(info) {
-            // Aquí puedes agregar la lógica para ver/editar eventos
         }
     });
     calendar.render();
