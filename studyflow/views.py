@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.utils import timezone
 from datetime import date
 from .models import PerfilUsuario, EstadoAnimo, NotaRapida, Evento, Curso, Tarea, Gasto, Presupuesto, SesionEstudio
-
+from .control import obtener_resumen_dashboard
 from datetime import datetime
 from datetime import timedelta
 from django.http import HttpResponse
