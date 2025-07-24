@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.utils import timezone
 from datetime import date
 from .models import PerfilUsuario, EstadoAnimo, NotaRapida, Evento, Curso, Tarea, Gasto, Presupuesto, SesionEstudio
+
 from datetime import datetime
 from datetime import timedelta
 from django.http import HttpResponse
@@ -110,6 +111,16 @@ def dashboard(request):
         'notas_recientes': notas_recientes,
         'estados_semana': estados_semana,
     }
+
+    resumen_inteligente = obtener_resumen_dashboard(request.user)
+    
+    context = {
+        'estado_hoy': estado_hoy,
+        'notas_recientes': notas_recientes,
+        'estados_semana': estados_semana,
+        # 🔥 NUEVO:
+        'control': resumen_inteligente,
+    }
     
     return render(request, 'studyflow/dashboard.html', context)
 
@@ -181,6 +192,20 @@ def exportar_notas(request):
     return response
 @login_required
 def perfil_usuario(request):
+    # 🔥 CREAR PERFIL SI NO EXISTE
+    perfil, created = PerfilUsuario.objects.get_or_create(
+        usuario=request.user,
+        defaults={
+            'nombre_completo': '',
+            'biografia': '',
+            'carrera': '',
+            'universidad': ''
+        }
+    )
+    
+    if created:
+        messages.info(request, 'Se ha creado tu perfil automáticamente')
+    
     promedio = EstadoAnimo.get_promedio_semanal(request.user)
     
     estadisticas = {
@@ -193,16 +218,17 @@ def perfil_usuario(request):
     
     if request.method == 'POST':
         # Actualizar perfil
-        perfil = request.user.perfilusuario
         perfil.biografia = request.POST.get('biografia', '')
         perfil.carrera = request.POST.get('carrera', '')
         perfil.universidad = request.POST.get('universidad', '')
+        perfil.nombre_completo = request.POST.get('nombre_completo', '')
         perfil.save()
         messages.success(request, 'Perfil actualizado exitosamente')
+        return redirect('perfil_usuario')
     
     return render(request, 'studyflow/perfil.html', {
         'estadisticas': estadisticas,
-        'perfil': request.user.perfilusuario
+        'perfil': perfil  # Usar la variable perfil que creamos
     })
 
 @login_required
@@ -328,18 +354,26 @@ def completar_tarea(request, tarea_id):
 
 @login_required
 def lista_gastos(request):
-    try:
-        gastos = Gasto.objects.filter(usuario=request.user).order_by('-fecha')
-        presupuesto = Presupuesto.objects.filter(usuario=request.user).first()
-        
-        context = {
-            'gastos': gastos,
-            'presupuesto': presupuesto,
-        }
-        return render(request, 'studyflow/gastos.html', context)
-    except Exception as e:
-        messages.error(request, f"Error al cargar la página: {str(e)}")
-        return redirect('dashboard')
+    gastos = Gasto.objects.filter(usuario=request.user)
+    presupuesto = Presupuesto.objects.filter(usuario=request.user).first()
+    
+    # Calcular total del mes actual
+    mes_actual = timezone.now().month
+    total_mes = gastos.filter(fecha__month=mes_actual).aggregate(
+        total=Sum('monto'))['total'] or 0
+    
+    # Calcular porcentaje del presupuesto usado
+    porcentaje_usado = 0
+    if presupuesto and presupuesto.monto > 0:
+        porcentaje_usado = (total_mes / presupuesto.monto) * 100
+    context = {
+        'gastos': gastos,
+        'total_mes': total_mes,
+        'presupuesto': presupuesto,
+        'porcentaje_usado': porcentaje_usado
+    }
+    
+    return render(request, 'studyflow/gastos.html', context)
 
 @login_required
 def establecer_presupuesto(request):
