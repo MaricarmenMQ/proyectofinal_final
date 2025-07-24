@@ -32,15 +32,12 @@ def registro_usuario(request):
         pais = request.POST.get('pais', '')
         foto_perfil = request.FILES.get('foto_perfil', None)
 
-        # Validaciones básicas
         if User.objects.filter(username=username).exists():
             messages.error(request, 'El nombre de usuario ya existe')
             return render(request, 'studyflow/registro.html')
 
-        # Crear usuario
         usuario = User.objects.create_user(username=username, email=email, password=password)
 
-        # Convertir fecha de nacimiento
         fecha_nacimiento = None
         if fecha_nacimiento_str:
             try:
@@ -49,7 +46,6 @@ def registro_usuario(request):
                 messages.error(request, 'Fecha de nacimiento inválida')
                 return render(request, 'studyflow/registro.html')
 
-        # Crear perfil con todos los datos
         PerfilUsuario.objects.create(
             usuario=usuario,
             nombre_completo=nombre_completo,
@@ -88,25 +84,21 @@ def logout_usuario(request):
 @login_required
 def dashboard(request):
     """Dashboard principal del usuario"""
-    # Obtener el estado de ánimo de hoy
     hoy = date.today()
     estado_hoy = EstadoAnimo.objects.filter(usuario=request.user, fecha=hoy).first()
     notas_recientes = NotaRapida.objects.filter(usuario=request.user).order_by('-fecha_creacion')[:5]
     
-    # Obtener próximos 3 eventos
     eventos_proximos = Evento.objects.filter(
         usuario=request.user,
         fecha_inicio__gte=timezone.now()
     ).order_by('fecha_inicio')[:3]
     
-    # Obtener estado de ánimo semanal
     estados_semana = EstadoAnimo.objects.filter(
         usuario=request.user,
         fecha__gte=timezone.now() - timedelta(days=7)
     ).order_by('-fecha')
     
     
-    # Obtener estados de ánimo de la semana
     estados_semana = EstadoAnimo.objects.filter(usuario=request.user)[:7]
     
     context = {
@@ -121,7 +113,6 @@ def dashboard(request):
         'estado_hoy': estado_hoy,
         'notas_recientes': notas_recientes,
         'estados_semana': estados_semana,
-        # 🔥 NUEVO:
         'control': resumen_inteligente,
     }
     
@@ -134,7 +125,6 @@ def registrar_estado(request):
         estado = request.POST['estado']
         comentario = request.POST.get('comentario', '')
         
-        # Crear o actualizar el estado del día
         estado_obj, created = EstadoAnimo.objects.get_or_create(
             usuario=request.user,
             fecha=date.today(),
@@ -162,14 +152,12 @@ def crear_nota(request):
     
     if request.method == 'POST':
         if 'preview' in request.POST:
-            # Si es una vista previa
             preview = {
                 'titulo': request.POST.get('titulo', ''),
                 'contenido': request.POST.get('contenido', ''),
                 'importante': request.POST.get('importante') == 'on'
             }
         else:
-            # Si es el envío final
             NotaRapida.objects.create(
                 usuario=request.user,
                 titulo=request.POST['titulo'],
@@ -195,7 +183,6 @@ def exportar_notas(request):
     return response
 @login_required
 def perfil_usuario(request):
-    # 🔥 CREAR PERFIL SI NO EXISTE
     perfil, created = PerfilUsuario.objects.get_or_create(
         usuario=request.user,
         defaults={
@@ -280,7 +267,7 @@ def lista_cursos(request):
     if request.method == 'POST':
         nombre = request.POST['nombre']
         profesor = request.POST.get('profesor', '')
-        horario = request.POST.get('horario', '')  # texto libre
+        horario = request.POST.get('horario', '')  
         color = request.POST.get('color', '#3788d8')
         
         curso = Curso.objects.create(
@@ -291,9 +278,8 @@ def lista_cursos(request):
             color=color
         )
 
-        # 🎯 Crear un evento automático con horario ejemplo (personalizable)
         fecha_inicio = datetime.now().replace(hour=10, minute=0, second=0, microsecond=0)
-        fecha_fin = fecha_inicio + timedelta(hours=2)  # 2 horas de duración por defecto
+        fecha_fin = fecha_inicio + timedelta(hours=2) 
 
         Evento.objects.create(
             usuario=request.user,
@@ -333,10 +319,8 @@ def crear_tarea(request):
         fecha_entrega = request.POST.get('fecha_entrega')
         prioridad = request.POST.get('prioridad', 'media')
         
-        # Obtener el curso
         curso = get_object_or_404(Curso, id=curso_id, usuario=request.user)
         
-        # Crear la tarea
         tarea = Tarea.objects.create(
             usuario=request.user,
             curso=curso,
@@ -364,38 +348,25 @@ def lista_gastos(request):
     gastos = Gasto.objects.filter(usuario=request.user)
     presupuesto = Presupuesto.objects.filter(usuario=request.user).first()
     
-    # Calcular total del mes actual
     mes_actual = timezone.now().month
     total_mes = gastos.filter(fecha__month=mes_actual).aggregate(
         total=Sum('monto'))['total'] or 0
-    
-# Calcular el restante y porcentaje usado
+
     restante = 0
     porcentaje_usado = 0
     if presupuesto and presupuesto.monto > 0:
         restante = presupuesto.monto - total_mes
         porcentaje_usado = (total_mes / presupuesto.monto) * 100
-<<<<<<< HEAD
 
-    # Agregar las categorías al contexto
     CATEGORIAS_CHOICES = [
-=======
-        
-     
-        CATEGORIAS_CHOICES = [
->>>>>>> 64d6640645de33e8d0d7926f4b5638c84223f001
         ('utiles', 'Útiles Escolares'),
         ('libros', 'Libros'),
         ('tecnologia', 'Tecnología'),
         ('transporte', 'Transporte'),
         ('comida', 'Comida'),
         ('otros', 'Otros')
-<<<<<<< HEAD
-    ]    
-=======
-]
+    ]
 
->>>>>>> 64d6640645de33e8d0d7926f4b5638c84223f001
     context = {
         'gastos': gastos,
         'total_mes': total_mes,
@@ -404,8 +375,10 @@ def lista_gastos(request):
         'restante': restante,
         'categorias': CATEGORIAS_CHOICES,
     }
-    
+
     return render(request, 'studyflow/gastos.html', context)
+
+
 
 @login_required
 def establecer_presupuesto(request):
@@ -454,13 +427,11 @@ def crear_gasto(request):
     
     return redirect('lista_gastos')
 
-# ...existing code...
 
 @login_required
 def lista_sesiones(request):
     sesiones = SesionEstudio.objects.filter(usuario=request.user)
     
-    # Estadísticas generales
     total_horas = timedelta()
     total_sesiones = sesiones.count()
     promedio_productividad = 0
@@ -497,7 +468,7 @@ def iniciar_sesion_estudio(request):
             curso_id=curso_id,
             ambiente=ambiente,
             nivel_energia=nivel_energia,
-            nivel_concentracion=nivel_energia  # Inicial igual a energía
+            nivel_concentracion=nivel_energia  
         )
         
         messages.success(request, '¡Sesión de estudio iniciada!')
@@ -526,21 +497,17 @@ def finalizar_sesion(request, sesion_id):
 @login_required
 def tablas(request):
     
-    # todos los datos
     usuarios = User.objects.select_related('perfilusuario').all()
-    estados = EstadoAnimo.objects.select_related('usuario').all().order_by('-fecha')[:50]  # Últimos 50
-    notas = NotaRapida.objects.select_related('usuario').all().order_by('-fecha_creacion')[:50]  # Últimas 50
+    estados = EstadoAnimo.objects.select_related('usuario').all().order_by('-fecha')[:50]  
+    notas = NotaRapida.objects.select_related('usuario').all().order_by('-fecha_creacion')[:50]  
     cursos = Curso.objects.select_related('usuario').all()
-    gastos = Gasto.objects.select_related('usuario').all().order_by('-fecha')[:50]  # Últimos 50
+    gastos = Gasto.objects.select_related('usuario').all().order_by('-fecha')[:50]  
     
-    # Calcular totales
     total_gastos_monto = gastos.aggregate(total=Sum('monto'))['total'] or 0
     
-    # Ruta de la base de datos
     db_path = settings.DATABASES['default']['NAME']
     
     context = {
-        # Datos
         'usuarios': usuarios,
         'estados': estados,
         'notas': notas,

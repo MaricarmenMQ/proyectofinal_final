@@ -172,15 +172,12 @@ class Gasto(models.Model):
     class Meta:
         ordering = ['-fecha']
 
-    #def __str__(self):
-       # return f"{self.titulo} - ${self.monto}"
-
 class Presupuesto(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     monto = models.DecimalField(max_digits=10, decimal_places=2)
     periodo = models.CharField(max_length=10, choices=Gasto.PERIODO_CHOICES)
     fecha_inicio = models.DateField(auto_now_add=True)
-    alerta_porcentaje = models.IntegerField(default=80)  # Alerta cuando se alcance el 80% del presupuesto
+    alerta_porcentaje = models.IntegerField(default=80)  
 
     def calcular_gastos_actuales(self):
         from django.db.models import Sum
@@ -193,7 +190,7 @@ class Presupuesto(models.Model):
                 fecha__year=fecha_actual.year,
                 fecha__month=fecha_actual.month
             )
-        else:  # semanal
+        else:  
             from datetime import timedelta
             inicio_semana = fecha_actual - timedelta(days=fecha_actual.weekday())
             gastos = Gasto.objects.filter(
