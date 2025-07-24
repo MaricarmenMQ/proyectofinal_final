@@ -20,6 +20,8 @@ class PerfilUsuario(models.Model):
         ],
         blank=True
     )
+    pais = models.CharField(max_length=100, blank=True, null=True)
+    foto_perfil = models.ImageField(upload_to='perfiles/', blank=True, null=True)
     biografia = models.TextField(max_length=500, blank=True)
     carrera = models.CharField(max_length=100, blank=True)
     universidad = models.CharField(max_length=100, blank=True)

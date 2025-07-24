@@ -52,7 +52,17 @@
             </div>
         </div>
     </div>
-
+<!-- Agregar después de la sección de estado de ánimo -->
+{% if control.gastos.consejo_inteligente %}
+<div class="col-lg-12 mt-4">
+    <div class="card border-warning">
+        <div class="card-body">
+            <h6 class="text-warning">💡 Consejo Inteligente</h6>
+            <p class="mb-0">{{ control.gastos.consejo_inteligente }}</p>
+        </div>
+    </div>
+</div>
+{% endif %}
     <!-- Notas Rápidas -->
     <div class="col-lg-8">
         <div class="card h-100 shadow-sm">

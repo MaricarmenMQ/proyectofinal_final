@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.utils import timezone
 from datetime import date
 from .models import PerfilUsuario, EstadoAnimo, NotaRapida, Evento, Curso, Tarea, Gasto, Presupuesto, SesionEstudio
-
+from .control import obtener_resumen_dashboard , obtener_datos_gastos_completo
 from datetime import datetime
 from datetime import timedelta
 from django.http import HttpResponse
@@ -110,6 +110,16 @@ def dashboard(request):
         'notas_recientes': notas_recientes,
         'estados_semana': estados_semana,
     }
+
+    resumen_inteligente = obtener_resumen_dashboard(request.user)
+    
+    context = {
+        'estado_hoy': estado_hoy,
+        'notas_recientes': notas_recientes,
+        'estados_semana': estados_semana,
+        # 🔥 NUEVO:
+        'control': resumen_inteligente,
+    }
     
     return render(request, 'studyflow/dashboard.html', context)
 
@@ -181,6 +191,20 @@ def exportar_notas(request):
     return response
 @login_required
 def perfil_usuario(request):
+    # 🔥 CREAR PERFIL SI NO EXISTE
+    perfil, created = PerfilUsuario.objects.get_or_create(
+        usuario=request.user,
+        defaults={
+            'nombre_completo': '',
+            'biografia': '',
+            'carrera': '',
+            'universidad': ''
+        }
+    )
+    
+    if created:
+        messages.info(request, 'Se ha creado tu perfil automáticamente')
+    
     promedio = EstadoAnimo.get_promedio_semanal(request.user)
     
     estadisticas = {
@@ -193,16 +217,17 @@ def perfil_usuario(request):
     
     if request.method == 'POST':
         # Actualizar perfil
-        perfil = request.user.perfilusuario
         perfil.biografia = request.POST.get('biografia', '')
         perfil.carrera = request.POST.get('carrera', '')
         perfil.universidad = request.POST.get('universidad', '')
+        perfil.nombre_completo = request.POST.get('nombre_completo', '')
         perfil.save()
         messages.success(request, 'Perfil actualizado exitosamente')
+        return redirect('perfil_usuario')
     
     return render(request, 'studyflow/perfil.html', {
         'estadisticas': estadisticas,
-        'perfil': request.user.perfilusuario
+        'perfil': perfil  # Usar la variable perfil que creamos
     })
 
 @login_required
@@ -346,7 +371,17 @@ def lista_gastos(request):
         'presupuesto': presupuesto,
         'porcentaje_usado': porcentaje_usado
     }
+    datos_inteligentes = obtener_datos_gastos_completo(request.user)
     
+    context = {
+        'gastos': gastos,
+        'total_mes': total_mes,
+        'presupuesto': presupuesto,
+        'porcentaje_usado': porcentaje_usado,
+        # 🔥 NUEVO:
+        'control_gastos': datos_inteligentes,
+    }
+
     return render(request, 'studyflow/gastos.html', context)
 
 @login_required
