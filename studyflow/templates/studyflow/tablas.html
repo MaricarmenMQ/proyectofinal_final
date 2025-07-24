@@ -16,20 +16,12 @@
     </style>
 </head>
 <body>
-    <h1>📊 Base de Datos StudyFlow</h1>
-    
-    <div class="navegacion">
-        <a href="#usuarios">👥 Usuarios</a>
-        <a href="#estados">😊 Estados</a>
-        <a href="#notas">📝 Notas</a>
-        <a href="#cursos">📚 Cursos</a>
-        <a href="#gastos">💰 Gastos</a>
-        <a href="{% url 'dashboard' %}">🏠 Dashboard</a>
-    </div>
+    <h1> DATOS </h1>
+
 
     <!-- RESUMEN GENERAL -->
     <div class="resumen">
-        <h3>📈 Resumen General del Sistema</h3>
+        <h3> Resumen General del Sistema</h3>
         <p><strong>Total Usuarios:</strong> {{ total_usuarios }}</p>
         <p><strong>Total Notas:</strong> {{ total_notas }}</p>
         <p><strong>Total Cursos:</strong> {{ total_cursos }}</p>
@@ -38,7 +30,7 @@
     </div>
 
     <!-- TABLA USUARIOS -->
-    <h2 id="usuarios">👥 Usuarios Registrados</h2>
+    <h2 id="usuarios"> Usuarios Registrados</h2>
     <table>
         <tr>
             <th>ID</th>
@@ -63,7 +55,7 @@
     </table>
 
     <!-- TABLA ESTADOS DE ÁNIMO -->
-    <h2 id="estados">😊 Estados de Ánimo</h2>
+    <h2 id="estados"> Estados de Ánimo</h2>
     <table>
         <tr>
             <th>ID</th>
@@ -86,7 +78,7 @@
     </table>
 
     <!-- TABLA NOTAS -->
-    <h2 id="notas">📝 Notas Rápidas</h2>
+    <h2 id="notas"> Notas Rápidas</h2>
     <table>
         <tr>
             <th>ID</th>
@@ -111,7 +103,7 @@
     </table>
 
     <!-- TABLA CURSOS -->
-    <h2 id="cursos">📚 Cursos</h2>
+    <h2 id="cursos"> Cursos</h2>
     <table>
         <tr>
             <th>ID</th>
@@ -134,7 +126,7 @@
     </table>
 
     <!-- TABLA GASTOS -->
-    <h2 id="gastos">💰 Control de Gastos</h2>
+    <h2 id="gastos"> Control de Gastos</h2>
     <table>
         <tr>
             <th>ID</th>
@@ -159,12 +151,9 @@
     </table>
 
     <div class="resumen">
-        <p><strong>💾 Base de datos SQLite:</strong> {{ db_path }}</p>
-        <p><strong>🕐 Última actualización:</strong> {{ fecha_actual|date:"d/m/Y H:i:s" }}</p>
+        <p><strong> Base de datos SQLite:</strong> {{ db_path }}</p>
+        <p><strong> Última actualización:</strong> {{ fecha_actual|date:"d/m/Y H:i:s" }}</p>
     </div>
 
-    <div class="navegacion">
-        <a href="{% url 'dashboard' %}">🏠 Volver al Dashboard</a>
-    </div>
 </body>
 </html>
