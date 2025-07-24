@@ -7,8 +7,8 @@
 <!-- Welcome Header -->
 <div class="row mb-4">
     <div class="col-12">
-        <div class="card bg-primary text-white shadow-sm">
-            <div class="card-body">
+        <div class="tarjeta bg-primary text-white shadow-sm">
+            <div class="tarjeta-body">
                 <h2 class="mb-1">¡Hola, {{ user.username }}! 👋</h2>
                 <p class="mb-0 opacity-75">¿Cómo te sientes hoy?</p>
             </div>
@@ -19,13 +19,13 @@
 <div class="row g-4">
     <!-- Estado de Ánimo Hoy -->
     <div class="col-lg-4">
-        <div class="card h-100 shadow-sm">
-            <div class="card-header bg-white">
-                <h5 class="card-title mb-0">
+        <div class="tarjeta h-100 shadow-sm">
+            <div class="tarjeta-header bg-white">
+                <h5 class="tarjeta-title mb-0">
                     <i class="fas fa-smile me-2 text-warning"></i>Mi Estado Hoy
                 </h5>
             </div>
-            <div class="card-body text-center">
+            <div class="tarjeta-body text-center">
                 {% if estado_hoy %}
                     <div class="estado-actual">
                         <div class="mb-3">
@@ -45,49 +45,51 @@
                     </div>
                 {% endif %}
                 
-                <a href="{% url 'registrar_estado' %}" class="btn btn-outline-primary">
+                <a href="{% url 'registrar_estado' %}" class="boton boton-borde-primario">
                     <i class="fas fa-edit me-2"></i>
                     {% if estado_hoy %}Actualizar{% else %}Registrar{% endif %}
                 </a>
             </div>
         </div>
     </div>
-<!-- Agregar después de la sección de estado de ánimo -->
-{% if control.gastos.consejo_inteligente %}
-<div class="col-lg-12 mt-4">
-    <div class="card border-warning">
-        <div class="card-body">
-            <h6 class="text-warning">💡 Consejo Inteligente</h6>
-            <p class="mb-0">{{ control.gastos.consejo_inteligente }}</p>
+
+    <!-- Agregar después de la sección de estado de ánimo -->
+    {% if control.gastos.consejo_inteligente %}
+    <div class="col-lg-12 mt-4">
+        <div class="tarjeta border-warning">
+            <div class="tarjeta-body">
+                <h6 class="text-warning">💡 Consejo Inteligente</h6>
+                <p class="mb-0">{{ control.gastos.consejo_inteligente }}</p>
+            </div>
         </div>
     </div>
-</div>
-{% endif %}
+    {% endif %}
+
     <!-- Notas Rápidas -->
     <div class="col-lg-8">
-        <div class="card h-100 shadow-sm">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                <h5 class="card-title mb-0">
+        <div class="tarjeta h-100 shadow-sm">
+            <div class="tarjeta-header bg-white d-flex justify-content-between align-items-center">
+                <h5 class="tarjeta-title mb-0">
                     <i class="fas fa-sticky-note me-2 text-warning"></i>Mis Notas Recientes
                 </h5>
-                <a href="{% url 'crear_nota' %}" class="btn btn-primary btn-sm">
+                <a href="{% url 'crear_nota' %}" class="boton boton-primario boton-sm">
                     <i class="fas fa-plus me-1"></i>Nueva Nota
                 </a>
             </div>
-            <div class="card-body">
+            <div class="tarjeta-body">
                 {% if notas_recientes %}
                     <div class="row g-3">
                         {% for nota in notas_recientes %}
                         <div class="col-md-6">
-                            <div class="card border-0 bg-light h-100">
-                                <div class="card-body p-3">
+                            <div class="tarjeta border-0 bg-light h-100">
+                                <div class="tarjeta-body p-3">
                                     <div class="d-flex justify-content-between align-items-start mb-2">
-                                        <h6 class="card-title mb-1">{{ nota.titulo }}</h6>
+                                        <h6 class="tarjeta-title mb-1">{{ nota.titulo }}</h6>
                                         {% if nota.importante %}
                                             <i class="fas fa-star text-warning"></i>
                                         {% endif %}
                                     </div>
-                                    <p class="card-text small text-muted">
+                                    <p class="tarjeta-text small text-muted">
                                         {{ nota.contenido|truncatechars:80 }}
                                     </p>
                                     <small class="text-muted">
@@ -103,7 +105,7 @@
                     <div class="text-center text-muted py-4">
                         <i class="fas fa-file-alt mb-3" style="font-size: 3rem;"></i>
                         <p>No tienes notas aún. ¡Crea tu primera nota!</p>
-                        <a href="{% url 'crear_nota' %}" class="btn btn-primary">
+                        <a href="{% url 'crear_nota' %}" class="boton boton-primario">
                             <i class="fas fa-plus me-2"></i>Crear Nota
                         </a>
                     </div>
@@ -117,13 +119,13 @@
 {% if estados_semana %}
 <div class="row mt-4">
     <div class="col-12">
-        <div class="card shadow-sm">
-            <div class="card-header bg-white">
-                <h5 class="card-title mb-0">
+        <div class="tarjeta shadow-sm">
+            <div class="tarjeta-header bg-white">
+                <h5 class="tarjeta-title mb-0">
                     <i class="fas fa-calendar-week me-2 text-info"></i>Mi Semana
                 </h5>
             </div>
-            <div class="card-body">
+            <div class="tarjeta-body">
                 <div class="d-flex justify-content-between flex-wrap gap-3">
                     {% for estado in estados_semana %}
                     <div class="text-center">

@@ -3,9 +3,9 @@
 {% block content %}
 <div class="container mt-4">
     <!-- Sección de Presupuesto -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Presupuesto</h5>
+    <div class="tarjeta mb-4">
+        <div class="tarjeta-body">
+            <h5 class="tarjeta-title">Presupuesto</h5>
             <form method="POST" action="{% url 'establecer_presupuesto' %}">
                 {% csrf_token %}
                 <div class="row g-3 align-items-center">
@@ -13,17 +13,17 @@
                         <label class="col-form-label">Monto:</label>
                     </div>
                     <div class="col-auto">
-                        <input type="number" name="monto" class="form-control" 
+                        <input type="number" name="monto" class="campo-formulario" 
                                value="{{ presupuesto.monto|default:'' }}" step="0.01" required>
                     </div>
                     <div class="col-auto">
-                        <select name="periodo" class="form-control">
+                        <select name="periodo" class="selector-campo">
                             <option value="mensual" {% if presupuesto.periodo == 'mensual' %}selected{% endif %}>Mensual</option>
                             <option value="semanal" {% if presupuesto.periodo == 'semanal' %}selected{% endif %}>Semanal</option>
                         </select>
                     </div>
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-primary">Establecer Presupuesto</button>
+                        <button type="submit" class="boton boton-primario">Establecer Presupuesto</button>
                     </div>
                 </div>
             </form>
@@ -34,9 +34,9 @@
     {% if presupuesto %}
     <div class="row mb-4">
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Resumen del Mes</h5>
+            <div class="tarjeta">
+                <div class="tarjeta-body">
+                    <h5 class="tarjeta-title">Resumen del Mes</h5>
                     <div class="d-flex justify-content-between mb-2">
                         <span>Presupuesto Total:</span>
                         <span class="fw-bold">${{ presupuesto.monto }}</span>
@@ -62,9 +62,9 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Gastos por Categoría</h5>
+            <div class="tarjeta">
+                <div class="tarjeta-body">
+                    <h5 class="tarjeta-title">Gastos por Categoría</h5>
                     {% for categoria in categorias_total %}
                     <div class="d-flex justify-content-between mb-2">
                         <span>{{ categoria.nombre }}</span>
@@ -83,18 +83,18 @@
             <h2 class="mb-0">
                 <i class="fas fa-money-bill-wave me-2"></i>Control de Gastos
             </h2>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoGastoModal">
+            <button class="boton boton-primario" data-bs-toggle="modal" data-bs-target="#nuevoGastoModal">
                 <i class="fas fa-plus me-2"></i>Registrar Gasto
             </button>
         </div>
     </div>
 
     <!-- Lista de Gastos -->
-    <div class="card">
-        <div class="card-body">
+    <div class="tarjeta">
+        <div class="tarjeta-body">
             {% if gastos %}
-                <div class="table-responsive">
-                    <table class="table table-hover">
+                <div class="tabla-responsive">
+                    <table class="tabla tabla-hover">
                         <thead>
                             <tr>
                                 <th>Fecha</th>
@@ -119,7 +119,7 @@
                                 <td>
                                     <form method="POST" action="{% url 'eliminar_gasto' gasto.id %}" class="d-inline">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger btn-sm" 
+                                        <button type="submit" class="boton boton-peligro boton-sm" 
                                                 onclick="return confirm('¿Estás seguro de eliminar este gasto?')">
                                             <i class="fas fa-trash"></i>
                                         </button>
@@ -131,7 +131,7 @@
                     </table>
                 </div>
             {% else %}
-                <div class="alert alert-info">
+                <div class="alerta alerta-info">
                     <i class="fas fa-info-circle me-2"></i>No hay gastos registrados.
                 </div>
             {% endif %}
@@ -150,33 +150,33 @@
                     {% csrf_token %}
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Título *</label>
-                            <input type="text" class="form-control" name="titulo" required>
+                            <label class="etiqueta-campo">Título *</label>
+                            <input type="text" class="campo-formulario" name="titulo" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Monto *</label>
-                            <input type="number" step="0.01" class="form-control" name="monto" required>
+                            <label class="etiqueta-campo">Monto *</label>
+                            <input type="number" step="0.01" class="campo-formulario" name="monto" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Categoría *</label>
-                            <select class="form-select" name="categoria" required>
+                            <label class="etiqueta-campo">Categoría *</label>
+                            <select class="selector-campo" name="categoria" required>
                                 {% for id, nombre in categorias %}
                                 <option value="{{ id }}">{{ nombre }}</option>
                                 {% endfor %}
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Fecha *</label>
-                            <input type="date" class="form-control" name="fecha" required>
+                            <label class="etiqueta-campo">Fecha *</label>
+                            <input type="date" class="campo-formulario" name="fecha" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Descripción</label>
-                            <textarea class="form-control" name="descripcion" rows="3"></textarea>
+                            <label class="etiqueta-campo">Descripción</label>
+                            <textarea class="campo-formulario" name="descripcion" rows="3"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Guardar Gasto</button>
+                        <button type="button" class="boton boton-secundario" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="boton boton-primario">Guardar Gasto</button>
                     </div>
                 </form>
             </div>

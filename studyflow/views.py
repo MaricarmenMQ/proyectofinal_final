@@ -375,16 +375,27 @@ def lista_gastos(request):
     if presupuesto and presupuesto.monto > 0:
         restante = presupuesto.monto - total_mes
         porcentaje_usado = (total_mes / presupuesto.monto) * 100
+<<<<<<< HEAD
 
     # Agregar las categorías al contexto
     CATEGORIAS_CHOICES = [
+=======
+        
+     
+        CATEGORIAS_CHOICES = [
+>>>>>>> 64d6640645de33e8d0d7926f4b5638c84223f001
         ('utiles', 'Útiles Escolares'),
         ('libros', 'Libros'),
         ('tecnologia', 'Tecnología'),
         ('transporte', 'Transporte'),
         ('comida', 'Comida'),
         ('otros', 'Otros')
+<<<<<<< HEAD
     ]    
+=======
+]
+
+>>>>>>> 64d6640645de33e8d0d7926f4b5638c84223f001
     context = {
         'gastos': gastos,
         'total_mes': total_mes,

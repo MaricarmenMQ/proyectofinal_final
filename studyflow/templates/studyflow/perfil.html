@@ -5,8 +5,8 @@
     <div class="row">
         <!-- Información Principal -->
         <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
+            <div class="tarjeta shadow-sm">
+                <div class="tarjeta-body text-center">
                         {% if user.perfilusuario.foto_perfil %}
                             <img src="{{ user.perfilusuario.foto_perfil.url }}"
                                 class="rounded-circle mb-3"
@@ -33,9 +33,9 @@
 
         <!-- Estadísticas y Actividad -->
         <div class="col-md-8">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title mb-4">Actividad Reciente</h5>
+            <div class="tarjeta shadow-sm">
+                <div class="tarjeta-body">
+                    <h5 class="tarjeta-title mb-4">Actividad Reciente</h5>
                     
                     <!-- Estadísticas Básicas -->
                     <div class="row g-4 mb-4">
@@ -79,26 +79,26 @@
             </div>
 
             <!-- Editar Perfil -->
-            <div class="card shadow-sm mt-4">
-                <div class="card-body">
-                    <h5 class="card-title mb-4">Editar Perfil</h5>
+            <div class="tarjeta shadow-sm mt-4">
+                <div class="tarjeta-body">
+                    <h5 class="tarjeta-title mb-4">Editar Perfil</h5>
                     <form method="post">
                         {% csrf_token %}
                         <div class="mb-3">
-                            <label class="form-label">Carrera</label>
-                            <input type="text" class="form-control" name="carrera" 
+                            <label class="etiqueta-campo">Carrera</label>
+                            <input type="text" class="campo-formulario" name="carrera" 
                                    value="{{ user.perfilusuario.carrera }}">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Universidad</label>
-                            <input type="text" class="form-control" name="universidad" 
+                            <label class="etiqueta-campo">Universidad</label>
+                            <input type="text" class="campo-formulario" name="universidad" 
                                    value="{{ user.perfilusuario.universidad }}">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Biografía</label>
-                            <textarea class="form-control" name="biografia" rows="3">{{ user.perfilusuario.biografia }}</textarea>
+                            <label class="etiqueta-campo">Biografía</label>
+                            <textarea class="campo-formulario" name="biografia" rows="3">{{ user.perfilusuario.biografia }}</textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="boton boton-primario">
                             <i class="fas fa-save me-2"></i>Guardar Cambios
                         </button>
                     </form>

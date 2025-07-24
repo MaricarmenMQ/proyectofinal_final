@@ -7,7 +7,7 @@
             <h2>
                 <i class="fas fa-graduation-cap me-2"></i>Mis Cursos
             </h2>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoCursoModal">
+            <button class="boton boton-primario" data-bs-toggle="modal" data-bs-target="#nuevoCursoModal">
                 <i class="fas fa-plus me-2"></i>Agregar Curso
             </button>
         </div>
@@ -16,9 +16,9 @@
     <div class="row g-4">
         {% for curso in cursos %}
         <div class="col-md-4">
-            <div class="card h-100 shadow-sm" style="border-left: 5px solid {{ curso.color }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ curso.nombre }}</h5>
+            <div class="tarjeta h-100 shadow-sm" style="border-left: 5px solid {{ curso.color }}">
+                <div class="tarjeta-body">
+                    <h5 class="tarjeta-title">{{ curso.nombre }}</h5>
                     {% if curso.profesor %}
                     <p class="mb-1">
                         <i class="fas fa-user me-2"></i>{{ curso.profesor }}
@@ -34,7 +34,7 @@
         </div>
         {% empty %}
         <div class="col">
-            <div class="alert alert-info">
+            <div class="alerta alerta-info">
                 <i class="fas fa-info-circle me-2"></i>No has agregado ningún curso aún.
             </div>
         </div>
@@ -54,26 +54,26 @@
                 {% csrf_token %}
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Nombre del Curso *</label>
-                        <input type="text" class="form-control" name="nombre" required>
+                        <label class="etiqueta-campo">Nombre del Curso *</label>
+                        <input type="text" class="campo-formulario" name="nombre" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Profesor</label>
-                        <input type="text" class="form-control" name="profesor">
+                        <label class="etiqueta-campo">Profesor</label>
+                        <input type="text" class="campo-formulario" name="profesor">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Horario</label>
-                        <input type="text" class="form-control" name="horario" 
+                        <label class="etiqueta-campo">Horario</label>
+                        <input type="text" class="campo-formulario" name="horario" 
                                placeholder="Ej: Lunes y Miércoles 10:00-12:00">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Color</label>
-                        <input type="color" class="form-control" name="color" value="#3788d8">
+                        <label class="etiqueta-campo">Color</label>
+                        <input type="color" class="campo-formulario" name="color" value="#3788d8">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar Curso</button>
+                    <button type="button" class="boton boton-secundario" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="boton boton-primario">Guardar Curso</button>
                 </div>
             </form>
         </div>
