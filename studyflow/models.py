@@ -147,32 +147,31 @@ class Tarea(models.Model):
         return f"{self.titulo} - {self.curso.nombre}"
         
 class Gasto(models.Model):
-    CATEGORIA_CHOICES = [
+    CATEGORIAS = [
         ('materiales', 'Materiales de Estudio'),
         ('libros', 'Libros'),
         ('tecnologia', 'Tecnología'),
         ('transporte', 'Transporte'),
-        ('Entretenimiento', 'Entretenimiento'),
-        ('otros', 'Otros'),
     ]
 
     PERIODO_CHOICES = [
-        ('semanal', 'Semanal'),
         ('mensual', 'Mensual'),
+        ('semanal', 'Semanal'),
     ]
-
-    titulo = models.CharField(max_length=100)
-    monto = models.DecimalField(max_digits=10, decimal_places=2)
-    categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES)
-    fecha = models.DateField()
-    descripcion = models.TextField(blank=True, null=True)
-    periodo = models.CharField(max_length=10, choices=PERIODO_CHOICES)
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.titulo} - ${self.monto}"
     
-# ...existing code...
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=200)
+    monto = models.DecimalField(max_digits=10, decimal_places=2)
+    categoria = models.CharField(max_length=50, choices=CATEGORIAS)
+    fecha = models.DateField(default=timezone.now)
+    descripcion = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['-fecha']
+
+    #def __str__(self):
+       # return f"{self.titulo} - ${self.monto}"
 
 class Presupuesto(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)

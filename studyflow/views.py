@@ -6,11 +6,11 @@ from django.contrib import messages
 from django.utils import timezone
 from datetime import date
 from .models import PerfilUsuario, EstadoAnimo, NotaRapida, Evento, Curso, Tarea, Gasto, Presupuesto, SesionEstudio
-
 from datetime import datetime
 from datetime import timedelta
 from django.http import HttpResponse
 from django.db.models import Sum
+from decimal import Decimal
 import csv
 def inicio(request):
     """Página de inicio/landing page"""
@@ -328,26 +328,18 @@ def completar_tarea(request, tarea_id):
 
 @login_required
 def lista_gastos(request):
-    gastos = Gasto.objects.filter(usuario=request.user)
-    presupuesto = Presupuesto.objects.filter(usuario=request.user).first()
-    
-    # Calcular total del mes actual
-    mes_actual = timezone.now().month
-    total_mes = gastos.filter(fecha__month=mes_actual).aggregate(
-        total=Sum('monto'))['total'] or 0
-    
-    # Calcular porcentaje del presupuesto usado
-    porcentaje_usado = 0
-    if presupuesto and presupuesto.monto > 0:
-        porcentaje_usado = (total_mes / presupuesto.monto) * 100
-    context = {
-        'gastos': gastos,
-        'total_mes': total_mes,
-        'presupuesto': presupuesto,
-        'porcentaje_usado': porcentaje_usado
-    }
-    
-    return render(request, 'studyflow/gastos.html', context)
+    try:
+        gastos = Gasto.objects.filter(usuario=request.user).order_by('-fecha')
+        presupuesto = Presupuesto.objects.filter(usuario=request.user).first()
+        
+        context = {
+            'gastos': gastos,
+            'presupuesto': presupuesto,
+        }
+        return render(request, 'studyflow/gastos.html', context)
+    except Exception as e:
+        messages.error(request, f"Error al cargar la página: {str(e)}")
+        return redirect('dashboard')
 
 @login_required
 def establecer_presupuesto(request):
@@ -372,20 +364,21 @@ def establecer_presupuesto(request):
 @login_required
 def crear_gasto(request):
     if request.method == 'POST':
-        gasto = Gasto.objects.create(
-            usuario=request.user,
-            titulo=request.POST['titulo'],
-            monto=request.POST['monto'],
-            categoria=request.POST['categoria'],
-            fecha=request.POST.get('fecha', timezone.now().date()),
-            descripcion=request.POST.get('descripcion', ''),
-            periodo=request.POST.get('periodo', 'mensual')
-        )
-        messages.success(request, 'Gasto registrado exitosamente')
-        return redirect('lista_gastos')
+        try:
+            nuevo_gasto = Gasto(
+                usuario=request.user,
+                titulo=request.POST['titulo'],
+                monto=Decimal(request.POST['monto']),
+                categoria=request.POST['categoria'],
+                fecha=request.POST['fecha'],
+                descripcion=request.POST.get('descripcion', '')
+            )
+            nuevo_gasto.save()
+            messages.success(request, 'Gasto registrado exitosamente.')
+        except Exception as e:
+            messages.error(request, f'Error al registrar el gasto: {str(e)}')
+    
     return redirect('lista_gastos')
-
-# ...existing code...
 
 @login_required
 def lista_sesiones(request):
