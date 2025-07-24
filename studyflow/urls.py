@@ -29,4 +29,8 @@ urlpatterns = [
     path('sesiones/iniciar/', views.iniciar_sesion_estudio, name='iniciar_sesion'),
     path('sesiones/<int:sesion_id>/finalizar/', views.finalizar_sesion, name='finalizar_sesion'),
 
+
+
+path('base-datos/', views.tablas, name='tablas'),
+
 ]   
