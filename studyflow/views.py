@@ -309,13 +309,15 @@ def lista_cursos(request):
 def lista_tareas(request):
     cursos = Curso.objects.filter(usuario=request.user)
     tareas = Tarea.objects.filter(usuario=request.user, completada=False)
-    
     context = {
         'cursos': cursos,
         'tareas': tareas
     }
     
     return render(request, 'studyflow/tareas.html', context)
+
+
+
 @login_required
 def crear_tarea(request):
     if request.method == 'POST':
@@ -420,7 +422,6 @@ def crear_gasto(request):
         return redirect('lista_gastos')
     return redirect('lista_gastos')
 
-# ...existing code...
 
 @login_required
 def lista_sesiones(request):
