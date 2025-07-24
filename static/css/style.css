@@ -84,7 +84,7 @@ body {
 
 /* ===== DROPDOWN ===== */
 /* ===== DROPDOWN MEJORADO ===== */
-.dropdown-menu {
+.menu-desplegable {
     z-index: 1100;
     border: none;
     border-radius: var(--border-radius);
@@ -103,7 +103,7 @@ body {
     margin-top: 0.5rem;
 }
 
-.dropdown-item {
+.elemento-menu {
     padding: 0.7rem 1rem;
     border-radius: 10px;
     font-weight: 500;
@@ -114,14 +114,14 @@ body {
     word-wrap: break-word;
 }
 
-.dropdown-item:hover {
+.elemento-menu:hover {
     background: var(--gradient-primary);
     color: white;
     transform: translateX(5px);
     text-decoration: none;
 }
 
-.dropdown-divider {
+.divisor-menu {
     margin: 0.5rem 0;
     border-color: rgba(0,0,0,0.1);
 }
@@ -132,21 +132,21 @@ body {
 }
 
 /* Scroll personalizado para dropdown */
-.dropdown-menu::-webkit-scrollbar {
+.menu-desplegable::-webkit-scrollbar {
     width: 6px;
 }
 
-.dropdown-menu::-webkit-scrollbar-track {
+.menu-desplegable::-webkit-scrollbar-track {
     background: #f8f9fa;
     border-radius: 3px;
 }
 
-.dropdown-menu::-webkit-scrollbar-thumb {
+.menu-desplegable::-webkit-scrollbar-thumb {
     background: var(--primary-color);
     border-radius: 3px;
 }
-/* ===== BOTONES ===== */
-/* ===== BOTONES ===== */
+
+
 .boton {
     border-radius: 50px;
     font-weight: 600;
@@ -353,7 +353,7 @@ body {
 }
 
 /* ===== FORMULARIOS ===== */
-.form-control {
+.campo-formulario {
     border-radius: 15px;
     border: 2px solid #e9ecef;
     padding: 0.8rem 1.2rem;
@@ -361,24 +361,37 @@ body {
     transition: all 0.3s ease;
 }
 
-.form-control:focus {
+.campo-formulario:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
     transform: scale(1.02);
     outline: none;
 }
 
-.form-control-lg {
+.campo-formulario-lg {
     padding: 1rem 1.5rem;
     font-size: 1.1rem;
 }
 
-.form-label {
+.etiqueta-campo {
     font-weight: 600;
     color: var(--dark-color);
     margin-bottom: 0.7rem;
 }
+.selector-campo {
+    border-radius: 15px;
+    border: 2px solid #e9ecef;
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
 
+.selector-campo:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    transform: scale(1.02);
+    outline: none;
+}
 /* ===== ESTADOS DE ÁNIMO ===== */
 .estado-emoji {
     animation: bounce 2s ease-in-out infinite;
@@ -411,7 +424,7 @@ label.boton {
 }
 
 /* ===== TABLAS ===== */
-.table {
+.tabla  {
     border-collapse: collapse;
     width: 100%;
     background-color: #fff;
@@ -420,23 +433,23 @@ label.boton {
     overflow: hidden;
 }
 
-.table td {
+.tabla td {
     white-space: normal;
     word-break: break-word;
 }
 
-.table th {
+.tabla th {
     background-color: var(--light-color);
     font-weight: 600;
 }
 
-.table-responsive {
+.tabla-responsive {
     overflow-x: auto;
     white-space: normal;
 }
 
 /* ===== ALERTAS ===== */
-.alert {
+.alerta {
     padding: 1rem 1.5rem;
     border-radius: var(--border-radius);
     font-weight: 500;
@@ -444,17 +457,17 @@ label.boton {
     border: none;
 }
 
-.alert-success {
+.alerta-exito {
     background-color: var(--success-color);
     color: #fff;
 }
 
-.alert-danger {
+.alerta-peligro {
     background-color: var(--danger-color);
     color: #fff;
 }
 
-.alert-warning {
+ .alerta-advertencia {
     background-color: var(--warning-color);
     color: #333;
 }

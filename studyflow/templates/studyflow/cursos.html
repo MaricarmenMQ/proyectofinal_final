@@ -34,7 +34,7 @@
         </div>
         {% empty %}
         <div class="col">
-            <div class="alert alert-info">
+            <div class="alerta alerta-info">
                 <i class="fas fa-info-circle me-2"></i>No has agregado ningún curso aún.
             </div>
         </div>
@@ -54,21 +54,21 @@
                 {% csrf_token %}
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Nombre del Curso *</label>
-                        <input type="text" class="form-control" name="nombre" required>
+                        <label class="etiqueta-campo">Nombre del Curso *</label>
+                        <input type="text" class="campo-formulario" name="nombre" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Profesor</label>
-                        <input type="text" class="form-control" name="profesor">
+                        <label class="etiqueta-campo">Profesor</label>
+                        <input type="text" class="campo-formulario" name="profesor">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Horario</label>
-                        <input type="text" class="form-control" name="horario" 
+                        <label class="etiqueta-campo">Horario</label>
+                        <input type="text" class="campo-formulario" name="horario" 
                                placeholder="Ej: Lunes y Miércoles 10:00-12:00">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Color</label>
-                        <input type="color" class="form-control" name="color" value="#3788d8">
+                        <label class="etiqueta-campo">Color</label>
+                        <input type="color" class="campo-formulario" name="color" value="#3788d8">
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -18,7 +18,7 @@
                     {% csrf_token %}
                     
                     <div class="mb-4">
-                        <label class="form-label fw-bold">Selecciona tu estado:</label>
+                        <label class="etiqueta-campo fw-bold">Selecciona tu estado:</label>
                         <div class="row justify-content-center">
                         {% for valor, etiqueta in estados %}
                         <div class="col-6 col-sm-4 col-md-3 mb-4">
@@ -33,10 +33,10 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="comentario" class="form-label">
+                        <label for="comentario" class="etiqueta-campo">
                             <i class="fas fa-comment me-2"></i>¿Quieres agregar algo más? (opcional)
                         </label>
-                        <textarea class="form-control" id="comentario" name="comentario" 
+                        <textarea class="campo-formulario" id="comentario" name="comentario" 
                                   rows="3" maxlength="200" 
                                   placeholder="Cuéntanos qué te hizo sentir así, qué pasó hoy, etc."></textarea>
                         <div class="form-text">Máximo 200 caracteres</div>

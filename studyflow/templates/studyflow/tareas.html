@@ -51,7 +51,7 @@
                     </div>
                 {% endfor %}
             {% else %}
-                <div class="alert alert-info">
+                <div class="alerta alerta-info">
                     <i class="fas fa-info-circle me-2"></i>No tienes tareas pendientes.
                 </div>
             {% endif %}
@@ -71,28 +71,28 @@
                 {% csrf_token %}
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Título *</label>
-                        <input type="text" class="form-control" name="titulo" required>
+                        <label class="etiqueta-campo">Título *</label>
+                        <input type="text" class="campo-formulario" name="titulo" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Curso *</label>
-                        <select class="form-select" name="curso" required>
+                        <label class="etiqueta-campo">Curso *</label>
+                        <select class="selector-campo" name="curso" required>
                             {% for curso in cursos %}
                                 <option value="{{ curso.id }}">{{ curso.nombre }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Descripción</label>
-                        <textarea class="form-control" name="descripcion" rows="3"></textarea>
+                        <label class="etiqueta-campo">Descripción</label>
+                        <textarea class="campo-formulario" name="descripcion" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Fecha de Entrega *</label>
-                        <input type="datetime-local" class="form-control" name="fecha_entrega" required>
+                        <label class="etiqueta-campo">Fecha de Entrega *</label>
+                        <input type="datetime-local" class="campo-formulario" name="fecha_entrega" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Prioridad</label>
-                        <select class="form-select" name="prioridad">
+                        <label class="etiqueta-campo">Prioridad</label>
+                        <select class="selector-campo" name="prioridad">
                             <option value="alta">🔴 Alta</option>
                             <option value="media" selected>🟡 Media</option>
                             <option value="baja">🟢 Baja</option>

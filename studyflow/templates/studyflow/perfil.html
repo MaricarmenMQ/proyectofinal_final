@@ -85,18 +85,18 @@
                     <form method="post">
                         {% csrf_token %}
                         <div class="mb-3">
-                            <label class="form-label">Carrera</label>
-                            <input type="text" class="form-control" name="carrera" 
+                            <label class="etiqueta-campo">Carrera</label>
+                            <input type="text" class="campo-formulario" name="carrera" 
                                    value="{{ user.perfilusuario.carrera }}">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Universidad</label>
-                            <input type="text" class="form-control" name="universidad" 
+                            <label class="etiqueta-campo">Universidad</label>
+                            <input type="text" class="campo-formulario" name="universidad" 
                                    value="{{ user.perfilusuario.universidad }}">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Biografía</label>
-                            <textarea class="form-control" name="biografia" rows="3">{{ user.perfilusuario.biografia }}</textarea>
+                            <label class="etiqueta-campo">Biografía</label>
+                            <textarea class="campo-formulario" name="biografia" rows="3">{{ user.perfilusuario.biografia }}</textarea>
                         </div>
                         <button type="submit" class="boton boton-primario">
                             <i class="fas fa-save me-2"></i>Guardar Cambios

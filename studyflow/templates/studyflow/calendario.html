@@ -30,26 +30,26 @@
                 {% csrf_token %}
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Título</label>
-                        <input type="text" class="form-control" name="titulo" required>
+                        <label class="etiqueta-campo">Título</label>
+                        <input type="text" class="campo-formulario" name="titulo" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Descripción</label>
-                        <textarea class="form-control" name="descripcion" rows="3"></textarea>
+                        <label class="etiqueta-campo">Descripción</label>
+                        <textarea class="campo-formulario" name="descripcion" rows="3"></textarea>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Fecha Inicio</label>
-                            <input type="datetime-local" class="form-control" name="fecha_inicio" required>
+                            <label class="etiqueta-campo">Fecha Inicio</label>
+                            <input type="datetime-local" class="campo-formulario" name="fecha_inicio" required>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Fecha Fin</label>
-                            <input type="datetime-local" class="form-control" name="fecha_fin" required>
+                            <label class="etiqueta-campo">Fecha Fin</label>
+                            <input type="datetime-local" class="campo-formulario" name="fecha_fin" required>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Color</label>
-                        <select class="form-select" name="color">
+                        <label class="etiqueta-campo">Color</label>
+                        <select class="selector-campo" name="color">
                             <option value="#3788d8">Azul</option>
                             <option value="#28a745">Verde</option>
                             <option value="#dc3545">Rojo</option>

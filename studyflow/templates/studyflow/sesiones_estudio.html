@@ -77,7 +77,7 @@
                     </div>
                 {% endfor %}
             {% else %}
-                <div class="alert alert-info">
+                <div class="alerta alerta-info">
                     <i class="fas fa-info-circle me-2"></i>No hay sesiones de estudio registradas.
                 </div>
             {% endif %}
@@ -97,24 +97,24 @@
                 {% csrf_token %}
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Curso *</label>
-                        <select name="curso" class="form-select" required>
+                        <label class="etiqueta-campo">Curso *</label>
+                        <select name="curso" class="selector-campo" required>
                             {% for curso in cursos %}
                                 <option value="{{ curso.id }}">{{ curso.nombre }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Ambiente de Estudio *</label>
-                        <select name="ambiente" class="form-select" required>
+                        <label class="etiqueta-campo">Ambiente de Estudio *</label>
+                        <select name="ambiente" class="selector-campo" required>
                             {% for value, label in SesionEstudio.AMBIENTE_CHOICES %}
                                 <option value="{{ value }}">{{ label }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Nivel de Energía *</label>
-                        <select name="nivel_energia" class="form-select" required>
+                        <label class="etiqueta-campo">Nivel de Energía *</label>
+                        <select name="nivel_energia" class="selector-campo" required>
                             {% for value, label in SesionEstudio.NIVEL_ENERGIA_CHOICES %}
                                 <option value="{{ value }}">{{ label }}</option>
                             {% endfor %}

@@ -17,10 +17,10 @@
                     {% csrf_token %}
                     
                     <div class="mb-4">
-                        <label for="titulo" class="form-label">
+                        <label for="titulo" class="etiqueta-campo">
                             <i class="fas fa-heading me-2"></i>Título de la nota *
                         </label>
-                        <input type="text" class="form-control form-control-lg" 
+                        <input type="text" class="campo-formulario campo-formulario-lg" 
                                id="titulo" name="titulo" 
                                placeholder="¿De qué va esta nota?" 
                                maxlength="100" required
@@ -28,10 +28,10 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="contenido" class="form-label">
+                        <label for="contenido" class="etiqueta-campo">
                             <i class="fas fa-pen me-2"></i>Contenido *
                         </label>
-                        <textarea class="form-control" id="contenido" name="contenido" 
+                        <textarea class="campo-formulario" id="contenido" name="contenido" 
                                   rows="8" maxlength="500" required
                                   placeholder="Escribe aquí todo lo que necesites recordar">{{ preview.contenido|default:'' }}</textarea>
                         <div class="form-text">Máximo 500 caracteres</div>
