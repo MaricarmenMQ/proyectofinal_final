@@ -316,8 +316,8 @@ body {
     bottom: 0;
     background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="0,0 1000,100 0,100"/></svg>');
     background-size: cover;
-    pointer-events: none; /* CLAVE: No bloquea clicks */
-    z-index: -1; /* Detrás del contenido */
+    pointer-events: none; 
+    z-index: -1; 
 }
 
 .hero-section .container {

@@ -32,6 +32,14 @@ def registro_usuario(request):
         pais = request.POST.get('pais', '')
         foto_perfil = request.FILES.get('foto_perfil', None)
 
+        if len(password) < 6:
+            messages.error(request, 'La contraseña debe tener al menos 6 caracteres')
+            return render(request, 'studyflow/registro.html')
+        
+        if len(password) > 8:
+            messages.error(request, 'La contraseña no puede tener más de 8 caracteres')
+            return render(request, 'studyflow/registro.html')
+
         if User.objects.filter(username=username).exists():
             messages.error(request, 'El nombre de usuario ya existe')
             return render(request, 'studyflow/registro.html')
