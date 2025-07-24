@@ -310,13 +310,15 @@ def lista_cursos(request):
 def lista_tareas(request):
     cursos = Curso.objects.filter(usuario=request.user)
     tareas = Tarea.objects.filter(usuario=request.user, completada=False)
-    
     context = {
         'cursos': cursos,
         'tareas': tareas
     }
     
     return render(request, 'studyflow/tareas.html', context)
+
+
+
 @login_required
 def crear_tarea(request):
     if request.method == 'POST':
@@ -362,15 +364,19 @@ def lista_gastos(request):
     total_mes = gastos.filter(fecha__month=mes_actual).aggregate(
         total=Sum('monto'))['total'] or 0
     
-    # Calcular porcentaje del presupuesto usado
+# Calcular el restante y porcentaje usado
+    restante = 0
     porcentaje_usado = 0
     if presupuesto and presupuesto.monto > 0:
+        restante = presupuesto.monto - total_mes
         porcentaje_usado = (total_mes / presupuesto.monto) * 100
+        
     context = {
         'gastos': gastos,
         'total_mes': total_mes,
         'presupuesto': presupuesto,
-        'porcentaje_usado': porcentaje_usado
+        'porcentaje_usado': porcentaje_usado,
+        'restante': restante,
     }
     
     return render(request, 'studyflow/gastos.html', context)
@@ -396,6 +402,14 @@ def establecer_presupuesto(request):
     return redirect('lista_gastos')
 
 @login_required
+def eliminar_gasto(request, gasto_id):
+    gasto = get_object_or_404(Gasto, id=gasto_id, usuario=request.user)
+    if request.method == 'POST':
+        gasto.delete()
+        messages.success(request, 'Gasto eliminado correctamente.')
+    return redirect('lista_gastos')
+
+@login_required
 def crear_gasto(request):
     if request.method == 'POST':
         try:
@@ -413,6 +427,8 @@ def crear_gasto(request):
             messages.error(request, f'Error al registrar el gasto: {str(e)}')
     
     return redirect('lista_gastos')
+
+# ...existing code...
 
 @login_required
 def lista_sesiones(request):

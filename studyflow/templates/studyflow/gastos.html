@@ -30,20 +30,48 @@
         </div>
     </div>
 
-    <!-- Barra de Progreso del Presupuesto -->
+    <!-- Resumen y Progreso del Presupuesto -->
     {% if presupuesto %}
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Progreso del Presupuesto</h5>
-            <div class="progress">
-                <div class="progress-bar {% if porcentaje_usado > 80 %}bg-danger{% endif %}" 
-                     role="progressbar" 
-                     style="width: {{ porcentaje_usado }}%">
-                    {{ porcentaje_usado|floatformat:1 }}%
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Resumen del Mes</h5>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Presupuesto Total:</span>
+                        <span class="fw-bold">${{ presupuesto.monto }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Gastado:</span>
+                        <span class="fw-bold text-{% if porcentaje_usado > 80 %}danger{% else %}success{% endif %}">
+                            ${{ total_mes }}
+                        </span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Restante:</span>
+                        <span class="fw-bold text-primary">${{ restante }}</span>
+                    </div>
+                    <div class="progress mt-3">
+                        <div class="progress-bar {% if porcentaje_usado > 80 %}bg-danger{% else %}bg-success{% endif %}" 
+                             role="progressbar" 
+                             style="width: {{ porcentaje_usado }}%">
+                            {{ porcentaje_usado|floatformat:1 }}%
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="mt-2">
-                <small>Total gastado: ${{ total_mes }} de ${{ presupuesto.monto }}</small>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Gastos por Categoría</h5>
+                    {% for categoria in categorias_total %}
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>{{ categoria.nombre }}</span>
+                        <span class="fw-bold">${{ categoria.total }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
@@ -51,8 +79,8 @@
 
     <!-- Control de Gastos -->
     <div class="row mb-4">
-        <div class="col">
-            <h2>
+        <div class="col d-flex justify-content-between align-items-center">
+            <h2 class="mb-0">
                 <i class="fas fa-money-bill-wave me-2"></i>Control de Gastos
             </h2>
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoGastoModal">
@@ -61,55 +89,47 @@
         </div>
     </div>
 
-    <!-- Resumen de Gastos -->
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Resumen del Mes</h5>
-                    <canvas id="gastosPorCategoria"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Total de Gastos</h5>
-                    <h3 class="text-primary">${{ total_mes }}</h3>
-                    <p class="text-muted">Este mes</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Lista de Gastos -->
-    <div class="row">
-        <div class="col">
+    <div class="card">
+        <div class="card-body">
             {% if gastos %}
-                {% for gasto in gastos %}
-                    <div class="card mb-3 shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-title mb-0">{{ gasto.titulo }}</h5>
-                                <span class="badge bg-primary">${{ gasto.monto }}</span>
-                            </div>
-                            <p class="text-muted small mb-2">
-                                <i class="fas fa-tag me-1"></i>{{ gasto.get_categoria_display }}
-                            </p>
-                            {% if gasto.descripcion %}
-                                <p class="card-text">{{ gasto.descripcion }}</p>
-                            {% endif %}
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted">
-                                    <i class="fas fa-calendar me-1"></i>{{ gasto.fecha|date:"d/m/Y" }}
-                                </small>
-                                <button class="btn btn-outline-danger btn-sm">
-                                    <i class="fas fa-trash me-1"></i>Eliminar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Título</th>
+                                <th>Categoría</th>
+                                <th>Monto</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for gasto in gastos %}
+                            <tr>
+                                <td>{{ gasto.fecha|date:"d/m/Y" }}</td>
+                                <td>
+                                    {{ gasto.titulo }}
+                                    {% if gasto.descripcion %}
+                                    <small class="text-muted d-block">{{ gasto.descripcion }}</small>
+                                    {% endif %}
+                                </td>
+                                <td><span class="badge bg-secondary">{{ gasto.get_categoria_display }}</span></td>
+                                <td class="fw-bold">${{ gasto.monto }}</td>
+                                <td>
+                                    <form method="POST" action="{% url 'eliminar_gasto' gasto.id %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm" 
+                                                onclick="return confirm('¿Estás seguro de eliminar este gasto?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             {% else %}
                 <div class="alert alert-info">
                     <i class="fas fa-info-circle me-2"></i>No hay gastos registrados.
@@ -126,7 +146,7 @@
                     <h5 class="modal-title">Registrar Nuevo Gasto</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form method="post" action="{% url 'crear_gasto' %}">
+                <form method="POST" action="{% url 'crear_gasto' %}">
                     {% csrf_token %}
                     <div class="modal-body">
                         <div class="mb-3">
@@ -140,12 +160,9 @@
                         <div class="mb-3">
                             <label class="form-label">Categoría *</label>
                             <select class="form-select" name="categoria" required>
-                                <option value="materiales">Materiales de Estudio</option>
-                                <option value="libros">Libros</option>
-                                <option value="tecnologia">Tecnología</option>
-                                <option value="transporte">Transporte</option>
-                                <option value="entretenimiento">Entretenimiento</option>
-                                <option value="otros">Otros</option>
+                                {% for id, nombre in categorias %}
+                                <option value="{{ id }}">{{ nombre }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="mb-3">
@@ -154,17 +171,52 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Descripción</label>
-                            <textarea class="form-control" name="descripcion"></textarea>
+                            <textarea class="form-control" name="descripcion" rows="3"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Guardar</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar Gasto</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+{% if messages %}
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    {% for message in messages %}
+    <div class="toast show" role="alert">
+        <div class="toast-header {% if message.tags %}bg-{{ message.tags }}{% endif %}">
+            <strong class="me-auto">Notificación</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body">
+            {{ message }}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
 {% endblock %}
 
+{% block extra_js %}
+<script>
+    // Inicializar los toasts de Bootstrap
+    var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    var toastList = toastElList.map(function (toastEl) {
+        return new bootstrap.Toast(toastEl, {
+            autohide: true,
+            delay: 3000
+        })
+    });
+
+    // Establecer la fecha actual en el campo de fecha del formulario
+    document.addEventListener('DOMContentLoaded', function() {
+        var today = new Date().toISOString().split('T')[0];
+        document.querySelector('input[type="date"]').value = today;
+    });
+</script>
+{% endblock %}

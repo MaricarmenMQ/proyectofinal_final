@@ -17,7 +17,14 @@
     <!-- Custom CSS -->
     {% load static %}
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-    
+    <style>
+    .progress {
+        height: 20px;
+    }
+    .progress-bar {
+        transition: width .6s ease;
+    }
+    </style>
     {% block extra_css %}{% endblock %}
 </head>
 <body>

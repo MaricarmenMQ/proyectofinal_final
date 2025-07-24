@@ -23,6 +23,7 @@ urlpatterns = [
     path('tarea/<int:tarea_id>/completar/', views.completar_tarea, name='completar_tarea'),
     path('gastos/', views.lista_gastos, name='lista_gastos'),
     path('gastos/crear/', views.crear_gasto, name='crear_gasto'),
+    path('gastos/eliminar/<int:gasto_id>/', views.eliminar_gasto, name='eliminar_gasto'),
     path('presupuesto/establecer/', views.establecer_presupuesto, name='establecer_presupuesto'),
     path('sesiones/', views.lista_sesiones, name='lista_sesiones'),
     path('sesiones/iniciar/', views.iniciar_sesion_estudio, name='iniciar_sesion'),
